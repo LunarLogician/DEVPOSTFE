@@ -2,16 +2,19 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, Sparkles } from 'lucide-react';
+import OTPVerification from '../components/OTPVerification';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, setUserAndToken } = useAuth();
   
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const [showOTPVerification, setShowOTPVerification] = useState(false);
+  const [unverifiedEmail, setUnverifiedEmail] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -28,13 +31,41 @@ const Login = () => {
     
     if (result.success) {
       navigate('/dashboard');
+    } else if (result.requiresVerification) {
+      // Show OTP verification screen
+      setUnverifiedEmail(result.email || formData.email);
+      setShowOTPVerification(true);
     }
     
     setLoading(false);
   };
 
+  const handleOTPVerified = (userData) => {
+    // User verified, set auth and redirect
+    setUserAndToken(userData);
+    navigate('/dashboard');
+  };
+
+  const handleBackToLogin = () => {
+    setShowOTPVerification(false);
+    setUnverifiedEmail('');
+  };
+
+  // Show OTP verification screen
+  if (showOTPVerification) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white px-4">
+        <OTPVerification 
+          email={unverifiedEmail}
+          onVerified={handleOTPVerified}
+          onBack={handleBackToLogin}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-purple-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
@@ -72,9 +103,17 @@ const Login = () => {
 
             {/* Password Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <Link 
+                  to="/forgot-password" 
+                  className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input

@@ -48,6 +48,13 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed';
+      
+      // Handle unverified email error
+      if (error.response?.status === 403) {
+        toast.error('Please verify your email first', { duration: 4000 });
+        return { success: false, message, requiresVerification: true, email };
+      }
+      
       toast.error(message);
       return { success: false, message };
     }
@@ -56,16 +63,40 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     try {
       const { data } = await authAPI.register({ name, email, password });
-      localStorage.setItem('token', data.data.token);
-      setUser(data.data);
-      setIsAuthenticated(true);
-      toast.success('Account created successfully!');
-      return { success: true };
+      
+      // Check if verification is required
+      if (data.requiresVerification) {
+        toast.success('Check your email for verification code!');
+        return { 
+          success: true, 
+          requiresVerification: true,
+          email: data.data?.email || email
+        };
+      }
+      
+      // Old flow - if token is provided (shouldn't happen with new backend)
+      if (data.data?.token) {
+        localStorage.setItem('token', data.data.token);
+        setUser(data.data);
+        setIsAuthenticated(true);
+        toast.success('Account created successfully!');
+        return { success: true };
+      }
+      
+      return { success: false, message: 'Unexpected response format' };
     } catch (error) {
       const message = error.response?.data?.message || 'Registration failed';
       toast.error(message);
       return { success: false, message };
     }
+  };
+
+  const setUserAndToken = (userData) => {
+    if (userData.token) {
+      localStorage.setItem('token', userData.token);
+    }
+    setUser(userData);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
@@ -82,7 +113,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    checkAuth
+    checkAuth,
+    setUserAndToken
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

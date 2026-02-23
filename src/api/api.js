@@ -24,10 +24,26 @@ api.interceptors.request.use(
   }
 );
 
+// Add response interceptor for better error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 429) {
+      console.warn('⚠️ Rate limit exceeded. Please wait before making more requests.');
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Auth API
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
+  verifyEmail: (data) => api.post('/auth/verify-email', data),
+  resendOtp: (data) => api.post('/auth/resend-otp', data),
   login: (data) => api.post('/auth/login', data),
+  forgotPassword: (data) => api.post('/auth/forgot-password', data),
+  verifyResetOtp: (data) => api.post('/auth/verify-reset-otp', data),
+  resetPassword: (data) => api.post('/auth/reset-password', data),
   getMe: () => api.get('/auth/me')
 };
 
@@ -46,7 +62,8 @@ export const postsAPI = {
 export const linkedinAPI = {
   getAuthUrl: () => api.get('/linkedin/auth'),
   disconnect: () => api.post('/linkedin/disconnect'),
-  toggleAutoPost: () => api.post('/linkedin/toggle-auto-post')
+  toggleAutoPost: () => api.post('/linkedin/toggle-auto-post'),
+  getLinkedInPosts: () => api.get('/linkedin/posts')
 };
 
 export default api;

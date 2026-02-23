@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, User, Sparkles } from 'lucide-react';
+import OTPVerification from '../components/OTPVerification';
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { register, setUserAndToken } = useAuth();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +14,8 @@ const Register = () => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const [showOTPVerification, setShowOTPVerification] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -28,14 +31,45 @@ const Register = () => {
     const result = await register(formData.name, formData.email, formData.password);
     
     if (result.success) {
-      navigate('/dashboard');
+      if (result.requiresVerification) {
+        // Show OTP verification screen
+        setRegisteredEmail(formData.email);
+        setShowOTPVerification(true);
+      } else {
+        // Old flow - direct login (shouldn't happen with new backend)
+        navigate('/dashboard');
+      }
     }
     
     setLoading(false);
   };
 
+  const handleOTPVerified = (userData) => {
+    // User verified, set auth and redirect
+    setUserAndToken(userData);
+    navigate('/dashboard');
+  };
+
+  const handleBackToRegister = () => {
+    setShowOTPVerification(false);
+    setRegisteredEmail('');
+  };
+
+  // Show OTP verification screen
+  if (showOTPVerification) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white px-4">
+        <OTPVerification 
+          email={registeredEmail}
+          onVerified={handleOTPVerified}
+          onBack={handleBackToRegister}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-purple-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">

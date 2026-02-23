@@ -3,7 +3,7 @@ import { Sparkles, ArrowLeft, Shield, Lock, Eye, Database, Mail } from 'lucide-r
 
 const Privacy = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-purple-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -195,7 +195,7 @@ const Privacy = () => {
           </section>
 
           {/* Contact */}
-          <section>
+          <section className="mb-8">
             <div className="flex items-center gap-2 mb-4">
               <Mail className="w-6 h-6 text-primary-600" />
               <h2 className="text-2xl font-bold text-gray-900">Contact Us</h2>
@@ -207,6 +207,19 @@ const Privacy = () => {
               <p className="text-gray-700">
                 <strong>Email:</strong> <a href="mailto:privacy@devpostai.com" className="text-primary-600 hover:underline">privacy@devpostai.com</a>
               </p>
+            </div>
+          </section>
+
+          {/* Links to Other Policies */}
+          <section className="mt-8 p-4 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600 mb-2">Related Policies:</p>
+            <div className="flex flex-wrap gap-4">
+              <Link to="/terms" className="text-primary-600 hover:text-primary-700 font-medium text-sm">
+                Terms of Service →
+              </Link>
+              <Link to="/refund-policy" className="text-primary-600 hover:text-primary-700 font-medium text-sm">
+                Refund Policy →
+              </Link>
             </div>
           </section>
         </div>
