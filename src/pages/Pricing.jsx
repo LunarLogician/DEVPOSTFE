@@ -27,14 +27,14 @@ const plans = [
   {
     id: 'starter',
     name: 'Starter',
-    price: '$9',
+    price: 'Rs 2,500',
     period: '/month',
     description: 'For professionals growing their presence',
     icon: <Zap className="w-6 h-6 text-blue-500" />,
     color: 'border-blue-500',
     badge: 'Popular',
     features: [
-      '50 AI-generated posts/month',
+      '20 AI-generated posts/month',
       'All tones & styles',
       'LinkedIn auto-post',
       'Post history & analytics',
@@ -46,14 +46,14 @@ const plans = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '$29',
+    price: 'Rs 5,300',
     period: '/month',
     description: 'For power users and teams',
     icon: <Crown className="w-6 h-6 text-yellow-500" />,
     color: 'border-yellow-500',
     badge: 'Best Value',
     features: [
-      'Unlimited AI-generated posts',
+      '50 AI-generated posts/month',
       'All tones & styles',
       'LinkedIn auto-post',
       'Advanced analytics',
