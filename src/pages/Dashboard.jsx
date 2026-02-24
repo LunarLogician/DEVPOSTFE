@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { paymentAPI } from '../api/api';
 import { useAuth } from '../context/AuthContext';
 import { postsAPI, linkedinAPI } from '../api/api';
 import LinkedInSettings from '../components/LinkedInSettings';
@@ -25,6 +26,55 @@ import {
   Share2,
   CheckCircle
 } from 'lucide-react';
+
+const ManageSubscriptionCard = ({ plan }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handlePortal = async () => {
+    try {
+      setLoading(true);
+      const { data } = await paymentAPI.getPortalUrl();
+      if (data.portalUrl) {
+        window.open(data.portalUrl, '_blank');
+      } else {
+        toast.error('Could not open customer portal');
+      }
+    } catch {
+      toast.error('Failed to open customer portal');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="card bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200">
+      <div className="flex items-start gap-3">
+        <Crown className="w-6 h-6 text-yellow-600 flex-shrink-0" />
+        <div className="flex-1">
+          <h4 className="font-bold text-gray-900 mb-1 capitalize">
+            {plan} Plan Active
+          </h4>
+          <p className="text-sm text-gray-600 mb-3">
+            Manage billing, invoices, or cancel your subscription.
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            <button
+              onClick={handlePortal}
+              disabled={loading}
+              className="btn btn-primary text-sm flex items-center gap-1.5"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
+              Manage Subscription
+            </button>
+            <Link to="/pricing" className="btn btn-secondary text-sm">
+              View Plans
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -55,8 +105,15 @@ const Dashboard = () => {
     fetchStats();
     fetchPosts();
     
-    // Check for LinkedIn callback
+    // Check for payment success
     const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment') === 'success') {
+      toast.success('🎉 Payment successful! Your plan has been upgraded.');
+      window.history.replaceState({}, '', '/dashboard');
+      // Refresh user data to reflect new plan
+      setTimeout(() => fetchStats(), 2000);
+    }
+
     if (urlParams.get('linkedin') === 'connected') {
       toast.success('LinkedIn connected successfully!');
       fetchStats();
@@ -281,16 +338,22 @@ const Dashboard = () => {
               {/* Stats */}
               {stats && (
                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
-                  {stats.plan === 'pro' ? (
-                    <>
-                      <Crown className="w-4 h-4 text-yellow-600" />
-                      <span className="text-sm font-medium text-gray-900">Pro Plan</span>
-                    </>
-                  ) : (
-                    <span className="text-sm text-gray-600">
-                      {stats.remaining}/5 posts left this month
-                    </span>
-                  )}
+                  {(() => {
+                    const limits = { free: 5, starter: 20, pro: 50 };
+                    const limit = limits[stats.plan] || 5;
+                    const planColors = { pro: 'text-yellow-600', starter: 'text-blue-600', free: 'text-gray-600' };
+                    return (
+                      <>
+                        {stats.plan !== 'free' && (
+                          <Crown className={`w-4 h-4 ${planColors[stats.plan]}`} />
+                        )}
+                        <span className={`text-sm font-medium ${planColors[stats.plan]}`}>
+                          {stats.remaining}/{limit} posts left
+                          {stats.plan !== 'free' && ` · ${stats.plan.charAt(0).toUpperCase() + stats.plan.slice(1)} Plan`}
+                        </span>
+                      </>
+                    );
+                  })()}
                 </div>
               )}
               
@@ -576,12 +639,17 @@ const Dashboard = () => {
                     <p className="text-sm text-gray-600 mb-3">
                       Get unlimited posts, scheduling, and auto-post to LinkedIn
                     </p>
-                    <button className="btn btn-primary text-sm">
+                    <Link to="/pricing" className="btn btn-primary text-sm">
                       Upgrade Now
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
+            )}
+
+            {/* Manage Subscription (for paid users) */}
+            {stats?.plan && stats.plan !== 'free' && (
+              <ManageSubscriptionCard plan={stats.plan} />
             )}
           </div>
         </div>

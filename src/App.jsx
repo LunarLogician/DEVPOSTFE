@@ -11,6 +11,7 @@ import About from './pages/About';
 import Privacy from './pages/Privacy';
 import TermsOfService from './pages/TermsOfService';
 import RefundPolicy from './pages/RefundPolicy';
+import Pricing from './pages/Pricing';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Routes>
       </AuthProvider>
     </Router>

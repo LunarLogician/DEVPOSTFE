@@ -66,4 +66,11 @@ export const linkedinAPI = {
   getLinkedInPosts: () => api.get('/linkedin/posts')
 };
 
+// Payment API
+export const paymentAPI = {
+  createCheckout: (plan) => api.post('/lemonsqueezy/create-checkout', { plan }),
+  getPortalUrl: () => api.post('/lemonsqueezy/customer-portal'),
+  getSubscription: () => api.get('/lemonsqueezy/subscription')
+};
+
 export default api;
