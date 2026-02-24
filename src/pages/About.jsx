@@ -6,27 +6,28 @@ const About = () => {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-white" />
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-gray-900">DevPost AI</h1>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900">DevPost AI</h1>
             </div>
-            <Link to="/dashboard" className="btn btn-secondary flex items-center gap-2">
+            <Link to="/dashboard" className="btn btn-secondary flex items-center gap-1.5 sm:gap-2 text-sm">
               <ArrowLeft className="w-4 h-4" />
-              Back to Dashboard
+              <span className="hidden sm:inline">Back to Dashboard</span>
+              <span className="sm:hidden">Back</span>
             </Link>
           </div>
         </div>
       </header>
 
       {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="card">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">About DevPost AI</h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">About DevPost AI</h1>
+          <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
             AI-powered LinkedIn content engine for developers
           </p>
 

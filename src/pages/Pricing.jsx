@@ -160,15 +160,15 @@ const Pricing = () => {
       </div>
 
       {/* Hero */}
-      <div className="text-center px-4 pb-12 pt-4">
-        <div className="inline-flex items-center gap-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
+      <div className="text-center px-4 pb-8 sm:pb-12 pt-4">
+        <div className="inline-flex items-center gap-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full px-4 py-1.5 text-sm font-medium mb-4 sm:mb-6">
           <Sparkles className="w-4 h-4" />
           Simple, transparent pricing
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
           Choose your plan
         </h1>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto">
+        <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto px-2">
           Generate high-quality LinkedIn posts with AI. Upgrade anytime, cancel anytime.
         </p>
 
@@ -184,8 +184,8 @@ const Pricing = () => {
       </div>
 
       {/* Plans */}
-      <div className="max-w-6xl mx-auto px-4 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto px-4 pb-12 sm:pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {plans.map((plan) => {
             const isCurrent = isCurrentPlan(plan.id);
             const isLoading = loadingPlan === plan.id;
@@ -193,7 +193,7 @@ const Pricing = () => {
             return (
               <div
                 key={plan.id}
-                className={`relative bg-gray-900 rounded-2xl border-2 p-8 flex flex-col transition-all duration-200 ${
+                className={`relative bg-gray-900 rounded-2xl border-2 p-6 sm:p-8 flex flex-col transition-all duration-200 ${
                   plan.id === 'starter'
                     ? 'border-blue-500 shadow-xl shadow-blue-500/10'
                     : isCurrent
