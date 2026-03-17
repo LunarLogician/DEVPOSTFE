@@ -16,7 +16,7 @@ const plans = [
     color: 'border-gray-200',
     badge: null,
     features: [
-      '5 AI-generated posts/month',
+      '3 AI-generated posts/month',
       'Basic tones & styles',
       'Copy & save posts',
       'Manual LinkedIn posting',

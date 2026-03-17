@@ -432,8 +432,8 @@ const Dashboard = () => {
               {stats && (
                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
                   {(() => {
-                    const limits = { free: 5, starter: 20, pro: 50 };
-                    const limit = limits[stats.plan] || 5;
+                    const limits = { free: 3, starter: 20, pro: 50 };
+                    const limit = limits[stats.plan] || 3;
                     const planColors = { pro: 'text-yellow-600', starter: 'text-blue-600', free: 'text-gray-600' };
                     return (
                       <>
