@@ -92,7 +92,7 @@ const Home = () => {
           {/* Badge */}
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-50 to-indigo-50 text-primary-700 px-4 py-2 sm:px-5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold border-2 border-primary-200 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
-            <span>AI-Powered LinkedIn Content Generator</span>
+            <span>Powered by Claude AI</span>
           </div>
 
           {/* Main Heading */}
@@ -106,8 +106,9 @@ const Home = () => {
 
           {/* Subheading */}
           <p className="text-base sm:text-xl lg:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium px-2">
-            Stop struggling with writer's block. Generate engaging, professional LinkedIn posts 
-            in <span className="text-primary-600 font-bold">seconds</span> with AI and stay consistent without the time commitment.
+            Generate engaging, professional LinkedIn posts in <span className="text-primary-600 font-bold">seconds</span> using <span className="text-primary-600 font-bold">Claude AI</span>. 
+            Then sit back as they <span className="text-primary-600 font-bold">automatically post to your profile</span>. 
+            Stay consistent, grow your presence, no time commitment.
           </p>
 
           {/* CTA Buttons */}
@@ -200,21 +201,21 @@ const Home = () => {
               Your Solution is Here
             </h2>
             <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              DevPost AI generates professional, engaging LinkedIn content in seconds. 
-              Just pick a topic, customize the tone, and you're done.
+              DevPost AI generates professional, engaging LinkedIn content in seconds using Claude AI. 
+              Just pick a topic, customize the tone, connect LinkedIn, and watch posts publish automatically.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div className="space-y-6">
-              <div className="flex items-start space-x-4">
+          <div className="flex items-start space-x-4">
                 <div className="bg-primary-50 p-3 rounded-lg border border-primary-100">
                   <Bot className="w-6 h-6 text-primary-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">AI-Powered Writing</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Claude AI Writing</h3>
                   <p className="text-gray-600">
-                    Our advanced AI understands LinkedIn's unique tone and creates posts that resonate with your audience
+                    Powered by Claude, one of the most advanced AI models. Understands LinkedIn's tone and creates posts that resonate
                   </p>
                 </div>
               </div>
@@ -245,12 +246,12 @@ const Home = () => {
 
               <div className="flex items-start space-x-4">
                 <div className="bg-primary-50 p-3 rounded-lg border border-primary-100">
-                  <BarChart3 className="w-6 h-6 text-primary-500" />
+                  <Linkedin className="w-6 h-6 text-primary-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Stay Consistent</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Auto-Post to LinkedIn</h3>
                   <p className="text-gray-600">
-                    Never miss posting again. Generate content whenever you need it, build your presence steadily
+                    Connect your LinkedIn and posts publish automatically. No copy-paste, no manual posting. Just generate and go.
                   </p>
                 </div>
               </div>
@@ -279,12 +280,12 @@ const Home = () => {
                   </div>
                   <button className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center space-x-2">
                     <Sparkles className="w-5 h-5" />
-                    <span>Generate Post</span>
+                    <span>Generate & Post</span>
                   </button>
-                  <div className="mt-4 p-4 bg-primary-50 rounded-lg border-2 border-dashed border-primary-200">
-                    <div className="text-sm text-gray-500 mb-2">Generated Post Preview</div>
-                    <div className="text-gray-700 text-sm leading-relaxed">
-                      AI is transforming how businesses operate... ✨
+                  <div className="mt-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">
+                    <div className="text-sm text-green-700 mb-2 font-semibold">✅ Posted to LinkedIn!</div>
+                    <div className="text-sm text-green-700">
+                      Your post is now live on your LinkedIn profile
                     </div>
                   </div>
                 </div>
@@ -308,12 +309,12 @@ const Home = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
-              { icon: Sparkles, title: 'AI Content Generation', desc: 'Create engaging posts instantly' },
-              { icon: Users, title: 'Multiple Tones', desc: 'Educational, motivational, and more' },
-              { icon: BarChart3, title: 'Save Drafts', desc: 'Save and manage your posts' },
-              { icon: Clock, title: 'Quick Generation', desc: 'Get posts in under 30 seconds' },
-              { icon: CheckCircle2, title: 'Easy Editing', desc: 'Customize generated content' },
-              { icon: Linkedin, title: 'LinkedIn Optimized', desc: 'Perfect formatting for LinkedIn' }
+              { icon: Sparkles, title: 'Claude AI Generation', desc: 'Powered by advanced Claude AI' },
+              { icon: Users, title: 'Multiple Tones', desc: 'Educational, motivational, storytelling' },
+              { icon: Linkedin, title: 'Auto-Post to LinkedIn', desc: 'Posts publish automatically to your profile' },
+              { icon: Clock, title: 'Lightning Fast', desc: 'Generate & post in under 30 seconds' },
+              { icon: CheckCircle2, title: 'Manual Control', desc: 'Edit before posting if you want' },
+              { icon: BarChart3, title: 'Track Performance', desc: 'See engagement on all your posts' }
             ].map((feature, idx) => (
               <div key={idx} className="bg-white rounded-xl p-6 border border-gray-100 shadow-md hover:shadow-xl transition-shadow">
                 <feature.icon className="w-10 h-10 text-primary-600 mb-4" />
@@ -335,10 +336,10 @@ const Home = () => {
         
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4 sm:mb-6 leading-tight">
-            Ready to Transform Your LinkedIn Game?
+            Start Posting to LinkedIn on Autopilot
           </h2>
           <p className="text-lg sm:text-2xl text-white/90 mb-8 sm:mb-10 font-medium max-w-3xl mx-auto px-2">
-            Join thousands of professionals who are staying consistent and growing their presence effortlessly
+            Generate posts with AI. They post automatically. Build your presence while you focus on what matters.
           </p>
           <Link
             to="/register"
