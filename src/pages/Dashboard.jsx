@@ -86,6 +86,8 @@ const Dashboard = () => {
     length: 'Medium'
   });
   
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageBase64, setImageBase64] = useState(null);
   const [generatedPost, setGeneratedPost] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -130,6 +132,27 @@ const Dashboard = () => {
     }
   }, [stats?.linkedinConnected]);
 
+  // Handle paste and file upload
+  useEffect(() => {
+    const handlePaste = (e) => {
+      console.log('📋 Paste event detected');
+      const items = e.clipboardData?.items;
+      if (items) {
+        for (let item of items) {
+          if (item.type.indexOf('image') !== -1) {
+            console.log('🖼️ Image found in clipboard, processing...');
+            const file = item.getAsFile();
+            processImage(file);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, []);
+
   const fetchStats = async () => {
     try {
       const { data } = await postsAPI.getStats();
@@ -172,6 +195,57 @@ const Dashboard = () => {
     }
   };
 
+  const processImage = (file) => {
+    console.log('🔄 Processing image:', file.name);
+    console.log('📊 File size:', (file.size / 1024 / 1024).toFixed(2), 'MB');
+    console.log('🏷️ File type:', file.type);
+
+    if (!file.type.startsWith('image/')) {
+      console.error('❌ Invalid file type. Not an image:', file.type);
+      toast.error('Please select a valid image file');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      console.error('❌ File too large:', (file.size / 1024 / 1024).toFixed(2), 'MB (limit: 5MB)');
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      console.log('✅ Image converted to base64');
+      console.log('📏 Base64 size:', (e.target.result.length / 1024).toFixed(2), 'KB');
+      const base64 = e.target.result;
+      setImageBase64(base64);
+      setImagePreview(base64);
+      toast.success('Image added to post!');
+    };
+    reader.onerror = () => {
+      console.error('❌ Failed to read file');
+      toast.error('Failed to process image');
+    };
+    console.log('📖 Reading file...');
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log('📁 File selected from input:', file.name);
+      processImage(file);
+    } else {
+      console.log('⚠️ No file selected');
+    }
+  };
+
+  const removeImage = () => {
+    console.log('🗑️ Removing image');
+    setImageBase64(null);
+    setImagePreview(null);
+    toast.success('Image removed');
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -187,18 +261,36 @@ const Dashboard = () => {
       return;
     }
 
+    console.log('🚀 Starting post generation');
+    console.log('📝 Topic:', formData.topic);
+    console.log('🎯 Tone:', formData.tone);
+    console.log('📏 Length:', formData.length);
+    console.log('🖼️ Image attached:', !!imageBase64);
+    if (imageBase64) {
+      console.log('  └─ Size:', (imageBase64.length / 1024).toFixed(2), 'KB');
+    }
+
     setIsGenerating(true);
     setGeneratedPost('');
     
     try {
-      const { data } = await postsAPI.generate(formData);
+      const generateData = {
+        ...formData,
+        ...(imageBase64 && { image: imageBase64 })
+      };
+      
+      console.log('📤 Sending request to server...');
+      const { data } = await postsAPI.generate(generateData);
       
       if (data.success) {
+        console.log('✅ Post generated successfully');
+        console.log('📌 Post ID:', data.data._id);
         setGeneratedPost(data.data.content);
         setEditingContent(data.data.content);
         setCurrentPostId(data.data._id);
         
         if (data.linkedinPostUrl) {
+          console.log('🔗 LinkedIn post URL:', data.linkedinPostUrl);
           toast.success(
             <div>
               Post generated & published to LinkedIn!
@@ -216,6 +308,7 @@ const Dashboard = () => {
         fetchPosts(); // Refresh saved posts
       }
     } catch (error) {
+      console.error('❌ Error generating post:', error);
       const message = error.response?.data?.message || 'Failed to generate post';
       
       if (error.response?.data?.limit) {
@@ -440,6 +533,48 @@ const Dashboard = () => {
                   </select>
                 </div>
 
+                {/* Image Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Add Image (Optional)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileSelect}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary-400 transition-colors bg-gray-50 hover:bg-primary-50"
+                    >
+                      <span className="text-sm text-gray-600">
+                        📎 Click to upload or paste an image
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Image Preview */}
+                  {imagePreview && (
+                    <div className="mt-3 relative">
+                      <img 
+                        src={imagePreview} 
+                        alt="Preview"
+                        className="w-full h-40 object-cover rounded-lg border border-gray-300"
+                      />
+                      <button
+                        type="button"
+                        onClick={removeImage}
+                        className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 {/* Generate Button */}
                 <button
                   type="submit"
@@ -493,6 +628,18 @@ const Dashboard = () => {
                           <p className="text-xs text-gray-600 mt-1 line-clamp-2">
                             {post.content.substring(0, 100)}...
                           </p>
+                          {post.image && (
+                            <div className="mt-2 relative h-20 bg-gray-200 rounded overflow-hidden">
+                              <img 
+                                src={post.image} 
+                                alt="Post"
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                                <span className="text-xs text-white bg-black/50 px-2 py-1 rounded">📸 Has Image</span>
+                              </div>
+                            </div>
+                          )}
                           <div className="flex items-center gap-2 mt-2 flex-wrap">
                             <span className="text-xs px-2 py-1 bg-primary-100 text-primary-700 rounded">
                               {post.tone}
@@ -601,6 +748,16 @@ const Dashboard = () => {
 
               {generatedPost ? (
                 <div>
+                  {imagePreview && (
+                    <div className="mb-4 relative">
+                      <img 
+                        src={imagePreview} 
+                        alt="Post preview"
+                        className="w-full h-48 object-cover rounded-lg border border-gray-300"
+                      />
+                      <p className="text-xs text-gray-500 mt-2">📸 Image will be included with your post</p>
+                    </div>
+                  )}
                   <textarea
                     value={editingContent}
                     onChange={(e) => setEditingContent(e.target.value)}
@@ -833,10 +990,22 @@ const Dashboard = () => {
                   />
                 </div>
               ) : (
-                <div className="prose max-w-none">
-                  <pre className="whitespace-pre-wrap font-sans text-sm text-gray-700 bg-gray-50 p-4 rounded-lg">
-                    {viewingPost.content}
-                  </pre>
+                <div className="space-y-4">
+                  {viewingPost.image && (
+                    <div className="relative">
+                      <img 
+                        src={viewingPost.image} 
+                        alt="Post preview"
+                        className="w-full h-64 object-cover rounded-lg border border-gray-300"
+                      />
+                      <p className="text-xs text-gray-500 mt-2">📸 Image attached to this post</p>
+                    </div>
+                  )}
+                  <div className="prose max-w-none">
+                    <pre className="whitespace-pre-wrap font-sans text-sm text-gray-700 bg-gray-50 p-4 rounded-lg">
+                      {viewingPost.content}
+                    </pre>
+                  </div>
                 </div>
               )}
             </div>

@@ -27,7 +27,7 @@ const plans = [
   {
     id: 'starter',
     name: 'Starter',
-    price: 'Rs 2,500',
+    price: 'Rs 1,000',
     period: '/month',
     description: 'For professionals growing their presence',
     icon: <Zap className="w-6 h-6 text-blue-500" />,
@@ -46,7 +46,7 @@ const plans = [
   {
     id: 'pro',
     name: 'Pro',
-    price: 'Rs 5,300',
+    price: 'Rs 2,000',
     period: '/month',
     description: 'For power users and teams',
     icon: <Crown className="w-6 h-6 text-yellow-500" />,
