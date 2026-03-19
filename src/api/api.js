@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://devpostaibackend-production.up.railway.app/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://devpost-backend-v2.vercel.app/api';
 
 // Create axios instance
 const api = axios.create({

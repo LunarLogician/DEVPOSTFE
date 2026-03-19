@@ -32,48 +32,48 @@ const FEATURES = [
     name: 'Claude AI Writing',
     desc: 'Powered by Claude — one of the most capable AI models. Understands tone, formats LinkedIn posts that actually get engagement.',
     chip: 'Claude-Powered',
-    chipColor: 'bg-blue-50 text-blue-700',
-    iconBg: 'bg-blue-50 text-blue-600',
+    chipColor: 'chip-blue',
+    iconBg: 'icon-blue',
   },
   {
     icon: <Users size={20} />,
     name: 'Multiple Tones & Styles',
     desc: 'Educational, motivational, storytelling, controversy — pick a tone and the AI adapts the entire post to match your brand voice.',
     chip: '8+ Tones',
-    chipColor: 'bg-pink-50 text-pink-700',
-    iconBg: 'bg-pink-50 text-pink-600',
+    chipColor: 'chip-purple',
+    iconBg: 'icon-purple',
   },
   {
     icon: <Linkedin size={20} />,
     name: 'Auto-Post to LinkedIn',
     desc: 'Connect your LinkedIn account once. Posts publish automatically to your profile — no copy-paste, no manual posting, ever.',
     chip: 'Fully Automated',
-    chipColor: 'bg-amber-50 text-amber-700',
-    iconBg: 'bg-amber-50 text-amber-600',
+    chipColor: 'chip-teal',
+    iconBg: 'icon-teal',
   },
   {
     icon: <PenLine size={20} />,
     name: 'Edit Before Posting',
     desc: 'Want full control? Review and edit every post before it goes live. Save drafts, rewrite sections — your content, your rules.',
     chip: 'Full Control',
-    chipColor: 'bg-emerald-50 text-emerald-700',
-    iconBg: 'bg-emerald-50 text-emerald-700',
+    chipColor: 'chip-green',
+    iconBg: 'icon-green',
   },
   {
     icon: <MessageSquare size={20} />,
     name: 'Saved Post Library',
     desc: 'Every generated post is saved. Browse your history, re-post top performers, and build a content library over time.',
     chip: 'Post History',
-    chipColor: 'bg-red-50 text-red-700',
-    iconBg: 'bg-red-50 text-red-600',
+    chipColor: 'chip-navy',
+    iconBg: 'icon-navy',
   },
   {
     icon: <BarChart2 size={20} />,
     name: 'Analytics & Tracking',
     desc: 'See likes, comments and shares across all your posts. Know what content resonates so you can double down on what works.',
     chip: 'Coming Soon',
-    chipColor: 'bg-sky-50 text-sky-600',
-    iconBg: 'bg-sky-50 text-sky-500',
+    chipColor: 'chip-muted',
+    iconBg: 'icon-muted',
     soon: true,
   },
 ]
@@ -103,7 +103,7 @@ const TESTIMONIALS = [
     name: 'Sara Malik',
     role: 'Product Manager, Lahore',
     initials: 'SM',
-    avatarColor: 'bg-blue-100 text-blue-700',
+    avatarColor: 'av-blue',
     featured: false,
   },
   {
@@ -112,7 +112,7 @@ const TESTIMONIALS = [
     name: 'Usman Tariq',
     role: 'Startup Founder, Karachi',
     initials: 'UT',
-    avatarColor: 'bg-emerald-100 text-emerald-700',
+    avatarColor: 'av-teal',
     featured: true,
   },
   {
@@ -121,7 +121,7 @@ const TESTIMONIALS = [
     name: 'Ayesha Khan',
     role: 'Marketing Director, Islamabad',
     initials: 'AK',
-    avatarColor: 'bg-pink-100 text-pink-700',
+    avatarColor: 'av-purple',
     featured: false,
   },
 ]
@@ -133,14 +133,13 @@ const PLANS = [
     period: 'per month',
     desc: 'Get started with AI-powered LinkedIn posts',
     features: [
-      { text: '3 AI-generated posts/month', ok: true },
-      { text: 'Basic tones & styles', ok: true },
-      { text: 'Copy & save posts', ok: true },
-      { text: 'Manual LinkedIn posting', ok: true },
+      { text: '3 AI-generated posts/month' },
+      { text: 'Basic tones & styles' },
+      { text: 'Copy & save posts' },
+      { text: 'Manual LinkedIn posting' },
     ],
     cta: 'Free Forever',
-    featured: false,
-    free: true,
+    variant: 'free',
   },
   {
     tier: 'Starter',
@@ -148,14 +147,15 @@ const PLANS = [
     period: 'per month',
     desc: 'For professionals growing their presence',
     features: [
-      { text: '20 AI-generated posts/month', ok: true },
-      { text: 'All tones & styles', ok: true },
-      { text: 'LinkedIn auto-post', ok: true },
-      { text: 'Post history & analytics', ok: true },
-      { text: 'Priority support', ok: true },
+      { text: '20 AI-generated posts/month' },
+      { text: 'All tones & styles' },
+      { text: 'LinkedIn auto-post' },
+      { text: 'Post history & analytics' },
+      { text: 'Priority support' },
     ],
     cta: 'Upgrade to Starter',
-    featured: true,
+    badge: 'Popular',
+    variant: 'starter',
   },
   {
     tier: 'Pro',
@@ -163,25 +163,25 @@ const PLANS = [
     period: 'per month',
     desc: 'For power users and teams',
     features: [
-      { text: '50 AI-generated posts/month', ok: true },
-      { text: 'All tones & styles', ok: true },
-      { text: 'LinkedIn auto-post', ok: true },
-      { text: 'Advanced analytics', ok: true },
-      { text: 'Priority support', ok: true },
-      { text: 'Early access to new features', ok: true },
+      { text: '50 AI-generated posts/month' },
+      { text: 'All tones & styles' },
+      { text: 'LinkedIn auto-post' },
+      { text: 'Advanced analytics' },
+      { text: 'Priority support' },
+      { text: 'Early access to new features' },
     ],
     cta: 'Upgrade to Pro',
-    featured: false,
-    pro: true,
+    badge: 'Best Value',
+    variant: 'pro',
   },
 ]
 
 const TOOL_PILLS = [
-  { icon: <Sparkles size={16} />, label: 'AI Writing', color: 'text-blue-600 bg-blue-50' },
-  { icon: <Linkedin size={16} />, label: 'Auto-Post', color: 'text-sky-600 bg-sky-50' },
-  { icon: <Users size={16} />, label: 'Tone Control', color: 'text-pink-600 bg-pink-50' },
-  { icon: <PenLine size={16} />, label: 'Draft & Edit', color: 'text-amber-600 bg-amber-50' },
-  { icon: <BarChart2 size={16} />, label: 'Analytics', color: 'text-emerald-700 bg-emerald-50' },
+  { icon: <Sparkles size={16} />, label: 'AI Writing', cls: 'pill-blue' },
+  { icon: <Linkedin size={16} />, label: 'Auto-Post', cls: 'pill-teal' },
+  { icon: <Users size={16} />, label: 'Tone Control', cls: 'pill-purple' },
+  { icon: <PenLine size={16} />, label: 'Draft & Edit', cls: 'pill-amber' },
+  { icon: <BarChart2 size={16} />, label: 'Analytics', cls: 'pill-green' },
 ]
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -197,9 +197,181 @@ const Home = () => {
       const link = document.createElement('link')
       link.id = 'devpost-fonts'
       link.rel = 'stylesheet'
-      link.href = 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap'
+      link.href = 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap'
       document.head.appendChild(link)
     }
+
+    const style = document.createElement('style')
+    style.id = 'devpost-home-styles'
+    if (!document.getElementById('devpost-home-styles')) {
+      style.textContent = `
+        :root {
+          --navy: #1a2744;
+          --navy-dark: #141e36;
+          --navy-mid: #1e2f52;
+          --teal: #2196b5;
+          --teal-deep: #1a7a9a;
+          --teal-light: #e8f6fa;
+          --teal-pale: #c8e8f2;
+          --purple: #7c5cbf;
+          --purple-light: #ede8f8;
+          --blue-gray: #f0f4f8;
+          --blue-gray-mid: #e2eaf2;
+          --border: #dde4ee;
+          --text-primary: #1a2744;
+          --text-secondary: #4a6080;
+          --text-muted: #8a9bb5;
+          --shadow-teal: 0 6px 20px rgba(33,150,181,0.32);
+          --shadow-navy: 0 8px 28px rgba(26,39,68,0.22);
+        }
+        .serif { font-family: 'DM Serif Display', Georgia, serif; }
+        .dm { font-family: 'DM Sans', sans-serif; }
+
+        @keyframes float-0 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+        @keyframes float-1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+        @keyframes float-2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+        @keyframes float-3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes float-4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+        .float-0{animation:float-0 2.8s ease-in-out 0s infinite}
+        .float-1{animation:float-1 3.1s ease-in-out 0.2s infinite}
+        .float-2{animation:float-2 2.6s ease-in-out 0.4s infinite}
+        .float-3{animation:float-3 3.3s ease-in-out 0.1s infinite}
+        .float-4{animation:float-4 2.9s ease-in-out 0.3s infinite}
+        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.35)}}
+        .pulse-dot{animation:pulse-dot 2s ease-in-out infinite}
+
+        /* Chips */
+        .chip-blue { background: rgba(33,150,181,0.1); color: var(--teal-deep); }
+        .chip-purple { background: var(--purple-light); color: var(--purple); }
+        .chip-teal { background: var(--teal-light); color: var(--teal-deep); }
+        .chip-green { background: rgba(76,175,125,0.1); color: #2d8a5e; }
+        .chip-navy { background: rgba(26,39,68,0.08); color: var(--navy-mid); }
+        .chip-muted { background: var(--blue-gray); color: var(--text-muted); }
+
+        /* Icon bgs */
+        .icon-blue { background: rgba(33,150,181,0.12); color: var(--teal); }
+        .icon-purple { background: var(--purple-light); color: var(--purple); }
+        .icon-teal { background: var(--teal-light); color: var(--teal-deep); }
+        .icon-green { background: rgba(76,175,125,0.1); color: #2d8a5e; }
+        .icon-navy { background: rgba(26,39,68,0.08); color: var(--navy); }
+        .icon-muted { background: var(--blue-gray); color: var(--text-muted); }
+
+        /* Pills */
+        .pill-blue { background: rgba(33,150,181,0.1); color: var(--teal-deep); }
+        .pill-teal { background: var(--teal-light); color: var(--teal-deep); }
+        .pill-purple { background: var(--purple-light); color: var(--purple); }
+        .pill-amber { background: rgba(232,168,76,0.12); color: #9a6200; }
+        .pill-green { background: rgba(76,175,125,0.1); color: #2d8a5e; }
+
+        /* Avatars */
+        .av-blue { background: rgba(33,150,181,0.15); color: var(--teal-deep); }
+        .av-teal { background: rgba(76,175,125,0.15); color: #2d8a5e; }
+        .av-purple { background: var(--purple-light); color: var(--purple); }
+
+        /* Section label */
+        .section-eyebrow {
+          display: inline-flex; align-items: center; gap: 8px;
+          font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+          text-transform: uppercase; color: var(--teal-deep);
+          font-family: 'DM Sans', sans-serif; margin-bottom: 12px;
+        }
+        .eyebrow-line { width: 16px; height: 2px; background: var(--teal); border-radius: 1px; }
+
+        /* Nav link */
+        .nav-link {
+          padding: 7px 14px; font-size: 13.5px; color: var(--text-secondary);
+          border-radius: 8px; transition: all 0.16s;
+          font-family: 'DM Sans', sans-serif; text-decoration: none;
+        }
+        .nav-link:hover { color: var(--navy); background: var(--blue-gray); }
+
+        /* Buttons */
+        .btn-primary {
+          display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+          padding: 13px 28px; background: linear-gradient(135deg, #2196b5, #1a7a9a);
+          color: white; border-radius: 12px; font-size: 14.5px; font-weight: 600;
+          border: none; cursor: pointer; transition: all 0.2s;
+          font-family: 'DM Sans', sans-serif; letter-spacing: -0.01em;
+          box-shadow: var(--shadow-teal); text-decoration: none;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(33,150,181,0.42); }
+
+        .btn-secondary {
+          display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+          padding: 13px 28px; background: white; color: var(--text-primary);
+          border: 1.5px solid var(--border); border-radius: 12px; font-size: 14.5px;
+          font-weight: 500; cursor: pointer; transition: all 0.2s;
+          font-family: 'DM Sans', sans-serif; text-decoration: none;
+        }
+        .btn-secondary:hover { transform: translateY(-2px); background: var(--blue-gray); border-color: var(--teal); }
+
+        .btn-sm-primary {
+          padding: 8px 18px; background: linear-gradient(135deg, #2196b5, #1a7a9a);
+          color: white; border-radius: 9px; font-size: 13px; font-weight: 600;
+          border: none; cursor: pointer; transition: all 0.18s;
+          font-family: 'DM Sans', sans-serif;
+          box-shadow: 0 3px 10px rgba(33,150,181,0.3);
+        }
+        .btn-sm-primary:hover { background: var(--teal-deep); }
+
+        .btn-sm-ghost {
+          padding: 8px 16px; background: white; color: var(--text-secondary);
+          border: 1.5px solid var(--border); border-radius: 9px; font-size: 13px;
+          font-weight: 500; cursor: pointer; transition: all 0.18s;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .btn-sm-ghost:hover { border-color: var(--teal); color: var(--teal-deep); }
+
+        /* Feature card */
+        .feature-card {
+          background: white; padding: 32px; height: 100%;
+          transition: background 0.2s;
+        }
+        .feature-card:hover { background: var(--teal-light); }
+        .feature-card.soon { opacity: 0.55; }
+
+        /* Tone button */
+        .tone-btn {
+          display: flex; align-items: center; gap: 10px;
+          padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border);
+          background: white; color: var(--text-secondary); cursor: pointer;
+          transition: all 0.16s; text-align: left; width: 100%;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .tone-btn:hover { border-color: var(--teal); background: var(--teal-light); }
+        .tone-btn.active {
+          background: linear-gradient(135deg, #2196b5, #1a7a9a);
+          border-color: var(--teal); color: white;
+          box-shadow: 0 4px 14px rgba(33,150,181,0.3);
+        }
+        .tone-icon {
+          width: 32px; height: 32px; border-radius: 9px;
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .tone-btn.active .tone-icon { background: rgba(255,255,255,0.15); color: white; }
+        .tone-btn:not(.active) .tone-icon { background: var(--teal-light); color: var(--teal-deep); }
+
+        /* Pricing cards */
+        .plan-free { background: white; border: 1.5px solid var(--border); color: var(--text-primary); }
+        .plan-starter { background: linear-gradient(160deg, var(--navy-mid) 0%, var(--navy-dark) 100%); border: 1.5px solid rgba(255,255,255,0.08); color: white; }
+        .plan-pro { background: linear-gradient(160deg, #2d1e52 0%, #1e1436 100%); border: 1.5px solid rgba(124,92,191,0.3); color: white; }
+
+        /* Stat bar */
+        .stat-bar { background: linear-gradient(135deg, var(--navy-mid), var(--navy-dark)); }
+
+        /* How it works dark section */
+        .how-section { background: linear-gradient(160deg, var(--navy-mid) 0%, var(--navy-dark) 100%); }
+
+        /* Testimonial featured */
+        .testimonial-featured { background: var(--teal-light); border: 1.5px solid var(--teal-pale); }
+        .testimonial-normal { background: white; border: 1.5px solid var(--border); }
+
+        .footer-link { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+        .footer-link:hover { color: var(--teal-deep); }
+      `
+      document.head.appendChild(style)
+    }
+
     const onScroll = () => setScrolled(window.scrollY > 24)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
@@ -211,281 +383,219 @@ const Home = () => {
     storytelling: `6 months ago, I almost quit LinkedIn.\n\nMy posts got 3 likes. My connections were stagnant. I felt invisible.\n\nThen I made one change.\n\nI stopped posting what I thought people wanted to hear.\nI started sharing what actually helped me.\n\nWeek 1: 12 likes.\nWeek 4: 200+ reactions.\nMonth 3: 500 new followers.\n\nAuthenticity is a growth strategy.\n\nWhat's one real lesson you've learned this year?\n\n#LinkedIn #PersonalBrand #Content`,
   }
 
+  /* hero bg */
+  const heroBg = {
+    background: 'linear-gradient(160deg, #f8fafc 0%, var(--blue-gray) 60%, #e8f6fa 100%)',
+  }
+
   return (
-    <div className="bg-[#fdfcf8] text-gray-900 overflow-x-hidden">
-      <style>{`
-        .serif { font-family: 'Instrument Serif', Georgia, serif; }
-        @keyframes float-0 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-7px)} }
-        @keyframes float-1 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-9px)} }
-        @keyframes float-2 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-6px)} }
-        @keyframes float-3 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-10px)} }
-        @keyframes float-4 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-7px)} }
-        .float-0{animation:float-0 2.8s ease-in-out 0s infinite}
-        .float-1{animation:float-1 3.1s ease-in-out 0.2s infinite}
-        .float-2{animation:float-2 2.6s ease-in-out 0.4s infinite}
-        .float-3{animation:float-3 3.3s ease-in-out 0.1s infinite}
-        .float-4{animation:float-4 2.9s ease-in-out 0.3s infinite}
-        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.35)}}
-        .pulse-dot{animation:pulse-dot 2s ease-in-out infinite}
-      `}</style>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--text-primary)', overflowX: 'hidden' }}>
 
       {/* ─── NAV ─────────────────────────────────────────────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || mobileNavOpen ? 'bg-[#fdfcf8]/95 backdrop-blur-xl shadow-sm border-b border-gray-100' : 'bg-transparent'
-      }`}>
-        <div className="px-5 md:px-12 py-4 max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Linkedin size={16} className="text-white" />
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        transition: 'all 0.3s',
+        background: scrolled || mobileNavOpen ? 'rgba(240,244,248,0.97)' : 'transparent',
+        backdropFilter: scrolled || mobileNavOpen ? 'blur(16px)' : 'none',
+        borderBottom: scrolled || mobileNavOpen ? '1px solid var(--border)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 2px 12px rgba(26,39,68,0.06)' : 'none',
+      }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 9, background: 'linear-gradient(135deg, #2196b5, #1a7a9a)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(33,150,181,0.3)' }}>
+              <Linkedin size={15} color="white" />
             </div>
-            <span className="font-semibold text-gray-900 tracking-tight">
-              DevPost<span className="text-blue-600">AI</span>
+            <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--navy)', letterSpacing: '-0.02em' }}>
+              DevPost<span style={{ color: 'var(--teal)' }}>AI</span>
             </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-1">
-            {['Features', 'How it works', 'Pricing'].map((l) => (
-              <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`}
-                className="px-4 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
-                {l}
-              </a>
+          {/* Desktop nav */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="desktop-nav">
+            {['Features', 'How it works', 'Pricing'].map(l => (
+              <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`} className="nav-link">{l}</a>
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {isAuthenticated ? (
-              <div className="hidden md:flex items-center gap-2">
-                <button onClick={() => navigate('/dashboard')}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all">
-                  Dashboard
-                </button>
-              </div>
+              <button onClick={() => navigate('/dashboard')} className="btn-sm-primary">Dashboard</button>
             ) : (
-              <div className="hidden md:flex items-center gap-2">
-                <button onClick={() => navigate('/login')}
-                  className="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-all">
-                  Log in
-                </button>
-                <button onClick={() => navigate('/register')}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all shadow-sm">
-                  Get started free
-                </button>
-              </div>
+              <>
+                <button onClick={() => navigate('/login')} className="btn-sm-ghost" style={{ display: 'none' }} id="nav-login">Log in</button>
+                <button onClick={() => navigate('/register')} className="btn-sm-primary">Get started free</button>
+              </>
             )}
-
-            <button
-              onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}
-              className="md:hidden px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all"
-            >
-              {isAuthenticated ? 'Dashboard' : 'Start free'}
-            </button>
-            <button
-              onClick={() => setMobileNavOpen(o => !o)}
-              className="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"
-              aria-label="Toggle menu"
-            >
+            <button onClick={() => setMobileNavOpen(o => !o)}
+              style={{ padding: 7, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', display: 'flex', borderRadius: 8 }}>
               {mobileNavOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
         {mobileNavOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-[#fdfcf8]/98 px-5 py-3 space-y-0.5">
-            {['Features', 'How it works', 'Pricing'].map((l) => (
+          <div style={{ borderTop: '1px solid var(--border)', background: 'rgba(240,244,248,0.98)', padding: '8px 18px 12px' }}>
+            {['Features', 'How it works', 'Pricing'].map(l => (
               <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`}
                 onClick={() => setMobileNavOpen(false)}
-                className="block px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">{l}</a>
+                style={{ display: 'block', padding: '10px 14px', fontSize: 13.5, color: 'var(--text-secondary)', borderRadius: 8, textDecoration: 'none' }}>
+                {l}
+              </a>
             ))}
-            {!isAuthenticated && (
-              <div className="pt-2 border-t border-gray-100 space-y-0.5">
-                <button onClick={() => { navigate('/login'); setMobileNavOpen(false) }}
-                  className="block w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all">
-                  Log in
-                </button>
-              </div>
-            )}
           </div>
         )}
       </nav>
 
       {/* ─── HERO ────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-5 sm:px-6" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: '96px', paddingBottom: '64px' }}>
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_600px_at_50%_30%,rgba(37,99,235,0.07),transparent_70%)]" />
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px)',
-            backgroundSize: '56px 56px',
-            maskImage: 'radial-gradient(ellipse 70% 55% at 50% 50%,black 0%,transparent 80%)',
-          }} />
-        </div>
+      <section style={{ ...heroBg, minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '120px 24px 80px', position: 'relative', overflow: 'hidden' }}>
+        {/* Grid overlay */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px)',
+          backgroundSize: '56px 56px',
+          maskImage: 'radial-gradient(ellipse 65% 55% at 50% 50%,black,transparent 80%)',
+          opacity: 0.5,
+        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 800px 500px at 50% 30%,rgba(33,150,181,0.08),transparent 70%)', pointerEvents: 'none' }} />
 
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-3 py-1.5 mb-8 shadow-sm"
-          >
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 pulse-dot" />
-            <span className="text-xs font-medium text-blue-800">LinkedIn Content Engine · Powered by Claude AI</span>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+          {/* Badge */}
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', border: '1.5px solid var(--teal-pale)', borderRadius: 99, padding: '7px 16px', marginBottom: 32, boxShadow: '0 2px 10px rgba(33,150,181,0.12)' }}>
+            <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--teal)' }} className="pulse-dot" />
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--teal-deep)' }}>LinkedIn Content Engine · Powered by Claude AI</span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="serif text-[clamp(52px,8vw,86px)] leading-[1.05] tracking-[-3px] text-gray-900"
-          >
+          {/* H1 */}
+          <motion.h1 initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="serif"
+            style={{ fontSize: 'clamp(48px,7.5vw,82px)', lineHeight: 1.05, letterSpacing: '-0.03em', color: 'var(--navy)', margin: 0 }}>
             Your LinkedIn presence,<br />
-            <em className="text-blue-700">on autopilot.</em>
+            <em style={{ color: 'var(--teal-deep)', fontStyle: 'italic' }}>on autopilot.</em>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.16 }}
-            className="mt-5 text-lg font-light text-gray-500 max-w-xl mx-auto leading-relaxed"
-          >
-            Generate professional LinkedIn posts with Claude AI in seconds — then watch them publish automatically to your profile. Stay consistent without the time commitment.
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}
+            style={{ marginTop: 22, fontSize: 17, fontWeight: 300, color: 'var(--text-secondary)', maxWidth: 520, margin: '20px auto 0', lineHeight: 1.7 }}>
+            Generate professional LinkedIn posts with Claude AI in seconds — then watch them publish automatically to your profile.
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.24 }}
-            className="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center"
-          >
-            <button
-              onClick={() => navigate('/register')}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-[15px] transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 hover:-translate-y-0.5"
-            >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.24 }}
+            style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            <button onClick={() => navigate('/register')} className="btn-primary">
               <Sparkles size={15} /> Start for free
             </button>
-            <a
-              href="#features"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 rounded-xl text-[15px] transition-all hover:-translate-y-0.5"
-            >
+            <a href="#features" className="btn-secondary">
               See all features <ChevronRight size={15} />
             </a>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
-            className="mt-4 text-xs text-gray-400"
-          >
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+            style={{ marginTop: 14, fontSize: 12, color: 'var(--text-muted)' }}>
             No credit card required · Free posts included · Upgrade anytime
           </motion.p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 mt-16 flex flex-wrap justify-center gap-3 max-w-xl mx-auto"
-        >
+        {/* Floating pills */}
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          style={{ position: 'relative', zIndex: 1, marginTop: 56, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, maxWidth: 560, margin: '56px auto 0' }}>
           {TOOL_PILLS.map((t, i) => (
-            <div key={t.label} className={`float-${i} bg-white border border-gray-100 rounded-xl px-4 py-2.5 flex items-center gap-2 shadow-sm`}>
-              <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${t.color}`}>{t.icon}</div>
-              <span className="text-xs font-medium text-gray-600">{t.label}</span>
+            <div key={t.label} className={`float-${i}`}
+              style={{ background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 2px 10px rgba(26,39,68,0.07)' }}>
+              <div className={`tone-icon ${t.cls}`} style={{ width: 28, height: 28, borderRadius: 8 }}>{t.icon}</div>
+              <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-secondary)' }}>{t.label}</span>
             </div>
           ))}
         </motion.div>
       </section>
 
       {/* ─── DEMO ─────────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-28 px-5 sm:px-6 bg-[#f7f6f2]">
-        <div className="max-w-6xl mx-auto">
-          <Reveal className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+      <section style={{ padding: '80px 24px', background: 'var(--blue-gray)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <Reveal style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, marginBottom: 48 }}>
             <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
-                <div className="w-4 h-0.5 bg-blue-500 rounded" /> See it in action
-              </div>
-              <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
-                AI-written posts that<br /><em className="text-blue-700">actually sound like you</em>
+              <div className="section-eyebrow"><span className="eyebrow-line" /> See it in action</div>
+              <h2 className="serif" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--navy)', margin: 0 }}>
+                AI-written posts that<br /><em style={{ color: 'var(--teal-deep)' }}>actually sound like you</em>
               </h2>
             </div>
-            <p className="text-base text-gray-500 max-w-md leading-relaxed">
-              Pick a tone, enter a topic, and Claude writes a ready-to-post LinkedIn update in seconds. Then hit post — it publishes automatically.
+            <p style={{ fontSize: 15, color: 'var(--text-secondary)', maxWidth: 380, lineHeight: 1.7, margin: 0 }}>
+              Pick a tone, enter a topic, and Claude writes a ready-to-post LinkedIn update in seconds.
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6 items-start">
-            {/* Left: tone selector */}
-            <Reveal className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm">
-              <div className="text-xs font-bold tracking-widest uppercase text-gray-400 mb-4">Pick a tone</div>
-              <div className="flex flex-col gap-2">
-                {[
-                  { id: 'educational', label: 'Educational', icon: <BarChart2 size={16} /> },
-                  { id: 'motivational', label: 'Motivational', icon: <Zap size={16} /> },
-                  { id: 'storytelling', label: 'Storytelling', icon: <MessageSquare size={16} /> },
-                ].map((t) => {
-                  const active = demoTone === t.id
-                  return (
+          <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, alignItems: 'start' }}>
+            {/* Tone picker */}
+            <Reveal>
+              <div style={{ background: 'white', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22, boxShadow: '0 2px 12px rgba(26,39,68,0.06)' }}>
+                <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 14 }}>Pick a tone</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {[
+                    { id: 'educational', label: 'Educational', icon: <BarChart2 size={15} /> },
+                    { id: 'motivational', label: 'Motivational', icon: <Zap size={15} /> },
+                    { id: 'storytelling', label: 'Storytelling', icon: <MessageSquare size={15} /> },
+                  ].map(t => (
                     <button key={t.id} onClick={() => setDemoTone(t.id)}
-                      className={`flex items-center gap-2.5 px-3.5 py-3 rounded-xl border transition-all text-left ${
-                        active ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white hover:bg-gray-50 text-gray-700 border-gray-200'
-                      }`}>
-                      <span className={`w-8 h-8 rounded-lg flex items-center justify-center ${active ? 'bg-white/10 text-white' : 'bg-blue-50 text-blue-700'}`}>{t.icon}</span>
-                      <span className="text-sm font-semibold">{t.label}</span>
-                      <span className={`ml-auto text-xs font-semibold ${active ? 'text-blue-200' : 'text-gray-400'}`}>→</span>
+                      className={`tone-btn ${demoTone === t.id ? 'active' : ''}`}>
+                      <span className="tone-icon">{t.icon}</span>
+                      <span style={{ fontSize: 13.5, fontWeight: 600 }}>{t.label}</span>
+                      <span style={{ marginLeft: 'auto', fontSize: 13, opacity: 0.6 }}>→</span>
                     </button>
-                  )
-                })}
-              </div>
-
-              <div className="mt-6 border-t border-gray-100 pt-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
-                    <Check size={16} />
+                  ))}
+                </div>
+                <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px solid var(--blue-gray-mid)', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                  <div style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(76,175,125,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Check size={15} color="#2d8a5e" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-gray-900">Ready to post instantly</div>
-                    <p className="text-sm text-gray-500 leading-relaxed mt-0.5">Connect LinkedIn once — posts publish with a single click, or automatically on a schedule.</p>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 3 }}>Ready to post instantly</p>
+                    <p style={{ fontSize: 12.5, color: 'var(--text-muted)', lineHeight: 1.55 }}>Connect LinkedIn once — posts publish with a single click.</p>
                   </div>
                 </div>
               </div>
             </Reveal>
 
-            {/* Right: generated post preview */}
-            <Reveal className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-              <div className="px-5 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
-                    <Linkedin size={16} className="text-white" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-gray-900">Generated LinkedIn Post</div>
-                    <div className="text-xs text-gray-400">Tone: {demoTone.charAt(0).toUpperCase() + demoTone.slice(1)} · Ready to post</div>
-                  </div>
-                </div>
-                <button onClick={() => navigate('/register')}
-                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-all">
-                  Try it now <ArrowRight size={14} />
-                </button>
-              </div>
-
-              <div className="p-5 sm:p-6">
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold">Y</div>
+            {/* Preview */}
+            <Reveal>
+              <div style={{ background: 'white', border: '1.5px solid var(--border)', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(26,39,68,0.06)' }}>
+                <div style={{ padding: '16px 22px', borderBottom: '1px solid var(--blue-gray)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #2196b5, #1a7a9a)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Linkedin size={16} color="white" />
+                    </div>
                     <div>
-                      <div className="text-sm font-semibold text-gray-900">Your Name</div>
-                      <div className="text-xs text-gray-400">Your Title · Just now</div>
+                      <p style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--navy)' }}>Generated LinkedIn Post</p>
+                      <p style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Tone: {demoTone.charAt(0).toUpperCase() + demoTone.slice(1)} · Ready to post</p>
                     </div>
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans">
-                    {demoPost[demoTone]}
-                  </pre>
-                </div>
-              </div>
-
-              <div className="px-5 sm:px-6 py-4 border-t border-gray-100 bg-white flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-                <div className="text-sm text-gray-600">
-                  <span className="font-semibold text-gray-900">Pro unlocks</span> auto-scheduling + unlimited posts.
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={() => navigate('/login')}
-                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-semibold transition-all">
-                    Log in
+                  <button onClick={() => navigate('/register')} className="btn-sm-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    Try it now <ArrowRight size={13} />
                   </button>
-                  <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all">
-                    See pricing
-                  </button>
+                </div>
+                <div style={{ padding: 22 }}>
+                  <div style={{ background: 'var(--blue-gray)', borderRadius: 12, border: '1.5px solid var(--border)', padding: 20 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                      <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(135deg, #2196b5, #1a7a9a)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ color: 'white', fontSize: 13, fontWeight: 700 }}>Y</span>
+                      </div>
+                      <div>
+                        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--navy)' }}>Your Name</p>
+                        <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>Your Title · Just now</p>
+                      </div>
+                    </div>
+                    <pre style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.7, whiteSpace: 'pre-wrap', fontFamily: "'DM Sans', sans-serif", margin: 0 }}>
+                      {demoPost[demoTone]}
+                    </pre>
+                  </div>
+                </div>
+                <div style={{ padding: '14px 22px', borderTop: '1px solid var(--blue-gray)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                  <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
+                    <strong style={{ color: 'var(--navy)' }}>Pro unlocks</strong> auto-scheduling + unlimited posts.
+                  </p>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={() => navigate('/login')} className="btn-sm-ghost">Log in</button>
+                    <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} className="btn-sm-primary">See pricing</button>
+                  </div>
                 </div>
               </div>
             </Reveal>
@@ -494,47 +604,49 @@ const Home = () => {
       </section>
 
       {/* ─── STATS BAR ───────────────────────────────────────────────────────── */}
-      <div className="bg-blue-700 py-6 px-6">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 overflow-hidden">
+      <div className="stat-bar" style={{ padding: '24px 24px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: 'rgba(255,255,255,0.08)', overflow: 'hidden', borderRadius: 4 }}>
           {[
             { num: '10,000+', label: 'Posts generated' },
             { num: '5,000+', label: 'Active creators' },
             { num: '30s', label: 'Avg generation time' },
             { num: '4.9 ★', label: 'Average rating' },
-          ].map((s) => (
-            <div key={s.label} className="text-center py-5 px-4 bg-blue-700">
-              <div className="serif text-2xl text-white">{s.num}</div>
-              <div className="text-xs text-white/50 mt-0.5">{s.label}</div>
+          ].map(s => (
+            <div key={s.label} style={{ textAlign: 'center', padding: '20px 16px', background: 'transparent' }}>
+              <div className="serif" style={{ fontSize: 24, color: 'white', lineHeight: 1 }}>{s.num}</div>
+              <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.45)', marginTop: 4 }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* ─── FEATURES ────────────────────────────────────────────────────────── */}
-      <section id="features" className="py-16 sm:py-28 px-5 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+      <section id="features" style={{ padding: '80px 24px', background: 'white' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <Reveal style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, marginBottom: 52 }}>
             <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
-                <div className="w-4 h-0.5 bg-blue-500 rounded" /> Features
-              </div>
-              <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
-                Six powerful tools,<br /><em className="text-blue-700">one platform</em>
+              <div className="section-eyebrow"><span className="eyebrow-line" /> Features</div>
+              <h2 className="serif" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--navy)', margin: 0 }}>
+                Six powerful tools,<br /><em style={{ color: 'var(--teal-deep)' }}>one platform</em>
               </h2>
             </div>
-            <p className="text-base text-gray-500 max-w-sm leading-relaxed">
+            <p style={{ fontSize: 15, color: 'var(--text-secondary)', maxWidth: 340, lineHeight: 1.7, margin: 0 }}>
               From AI writing to auto-publishing — DevPost AI handles every part of your LinkedIn content workflow.
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden' }}>
             {FEATURES.map((f, i) => (
               <Reveal key={f.name} delay={i * 0.05}>
-                <div className={`bg-white p-5 sm:p-8 h-full hover:bg-blue-50/50 transition-colors duration-200 ${f.soon ? 'opacity-55' : ''}`}>
-                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${f.iconBg}`}>{f.icon}</div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{f.name}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
-                  <span className={`inline-block mt-4 text-[11px] font-semibold px-2.5 py-1 rounded-full ${f.chipColor}`}>{f.chip}</span>
+                <div className={`feature-card ${f.soon ? 'soon' : ''}`}>
+                  <div className={`tone-icon ${f.iconBg}`} style={{ width: 44, height: 44, borderRadius: 12, marginBottom: 18 }}>{f.icon}</div>
+                  <h3 style={{ fontWeight: 600, fontSize: 15, color: 'var(--navy)', marginBottom: 8 }}>{f.name}</h3>
+                  <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.65 }}>{f.desc}</p>
+                  <span className={`chip-${f.chipColor.replace('chip-', '')}`}
+                    style={{ display: 'inline-block', marginTop: 16, fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 99 }}
+                    className={f.chipColor}>
+                    {f.chip}
+                  </span>
                 </div>
               </Reveal>
             ))}
@@ -543,25 +655,25 @@ const Home = () => {
       </section>
 
       {/* ─── HOW IT WORKS ────────────────────────────────────────────────────── */}
-      <section id="how-it-works" className="py-16 sm:py-28 px-5 sm:px-6 bg-gray-950 text-white">
-        <div className="max-w-5xl mx-auto">
+      <section id="how-it-works" className="how-section" style={{ padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <Reveal>
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-3">
-              <div className="w-4 h-0.5 bg-blue-500 rounded" /> How it works
-            </div>
-            <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
-              Up and running<br /><em className="text-blue-400">in 60 seconds</em>
+            <div className="section-eyebrow" style={{ color: 'var(--teal-pale)' }}><span style={{ width: 16, height: 2, background: 'var(--teal)', borderRadius: 1, display: 'inline-block' }} /> How it works</div>
+            <h2 className="serif" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', margin: 0 }}>
+              Up and running<br /><em style={{ color: 'var(--teal-pale)', fontStyle: 'italic' }}>in 60 seconds</em>
             </h2>
           </Reveal>
 
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          <div style={{ marginTop: 64, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
             {STEPS.map((s, i) => (
               <Reveal key={s.num} delay={i * 0.1}>
                 <div>
-                  <div className="serif text-[80px] leading-none text-white/12 select-none mb-2">{s.num}</div>
-                  <div className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-xs font-semibold text-white/80 mb-5">{i + 1}</div>
-                  <h3 className="font-semibold text-lg mb-3">{s.name}</h3>
-                  <p className="text-sm text-white/70 leading-relaxed">{s.desc}</p>
+                  <div className="serif" style={{ fontSize: 72, lineHeight: 1, color: 'rgba(255,255,255,0.08)', userSelect: 'none', marginBottom: 4 }}>{s.num}</div>
+                  <div style={{ width: 30, height: 30, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>{i + 1}</span>
+                  </div>
+                  <h3 style={{ fontWeight: 600, fontSize: 16, color: 'white', marginBottom: 10 }}>{s.name}</h3>
+                  <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65 }}>{s.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -570,34 +682,35 @@ const Home = () => {
       </section>
 
       {/* ─── TESTIMONIALS ────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-28 px-5 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <Reveal className="text-center mb-16">
-            <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
-              <div className="w-4 h-0.5 bg-blue-500 rounded" /> Reviews <div className="w-4 h-0.5 bg-blue-500 rounded" />
-            </div>
-            <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
-              Loved by creators<br /><em className="text-blue-700">everywhere</em>
+      <section style={{ padding: '80px 24px', background: 'var(--blue-gray)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <Reveal style={{ textAlign: 'center', marginBottom: 52 }}>
+            <div className="section-eyebrow" style={{ justifyContent: 'center' }}><span className="eyebrow-line" /> Reviews <span className="eyebrow-line" /></div>
+            <h2 className="serif" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--navy)', margin: 0 }}>
+              Loved by creators<br /><em style={{ color: 'var(--teal-deep)' }}>everywhere</em>
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {TESTIMONIALS.map((t, i) => (
               <Reveal key={t.name} delay={i * 0.08}>
-                <div className={`rounded-2xl p-7 h-full border transition-all hover:-translate-y-1 hover:shadow-lg duration-200 ${
-                  t.featured ? 'bg-blue-50 border-blue-200 shadow-md' : 'bg-white border-gray-100'
-                }`}>
-                  <div className="flex gap-0.5 mb-4">
+                <div className={t.featured ? 'testimonial-featured' : 'testimonial-normal'}
+                  style={{ borderRadius: 16, padding: 28, height: '100%', transition: 'all 0.2s', cursor: 'default' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(26,39,68,0.1)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}>
+                  <div style={{ display: 'flex', gap: 2, marginBottom: 14 }}>
                     {Array.from({ length: t.stars }).map((_, j) => (
-                      <Star key={j} size={13} className="fill-amber-400 text-amber-400" />
+                      <Star key={j} size={13} style={{ fill: '#f5c842', color: '#f5c842' }} />
                     ))}
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed italic mb-6">"{t.quote}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold ${t.avatarColor}`}>{t.initials}</div>
+                  <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.7, fontStyle: 'italic', marginBottom: 20 }}>"{t.quote}"</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div className={t.avatarColor} style={{ width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                      {t.initials}
+                    </div>
                     <div>
-                      <div className="text-sm font-semibold text-gray-900">{t.name}</div>
-                      <div className="text-xs text-gray-400">{t.role}</div>
+                      <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--navy)' }}>{t.name}</p>
+                      <p style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>{t.role}</p>
                     </div>
                   </div>
                 </div>
@@ -608,73 +721,69 @@ const Home = () => {
       </section>
 
       {/* ─── PRICING ─────────────────────────────────────────────────────────── */}
-      <section id="pricing" className="py-16 sm:py-28 px-5 sm:px-6 bg-[#f7f6f2]">
-        <div className="max-w-5xl mx-auto">
-          <Reveal className="text-center mb-16">
-            <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
-              <div className="w-4 h-0.5 bg-blue-500 rounded" /> Pricing <div className="w-4 h-0.5 bg-blue-500 rounded" />
-            </div>
-            <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
-              Simple, creator-friendly<br /><em className="text-blue-700">pricing</em>
+      <section id="pricing" style={{ padding: '80px 24px', background: 'white' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <Reveal style={{ textAlign: 'center', marginBottom: 52 }}>
+            <div className="section-eyebrow" style={{ justifyContent: 'center' }}><span className="eyebrow-line" /> Pricing <span className="eyebrow-line" /></div>
+            <h2 className="serif" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--navy)', margin: 0 }}>
+              Simple, creator-friendly<br /><em style={{ color: 'var(--teal-deep)' }}>pricing</em>
             </h2>
-            <p className="mt-3 text-sm text-gray-500">Start free. Upgrade for auto-posting and unlimited content.</p>
+            <p style={{ marginTop: 12, fontSize: 13.5, color: 'var(--text-muted)' }}>Start free. Upgrade for auto-posting and unlimited content.</p>
           </Reveal>
 
           <Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {PLANS.map((plan) => (
-                <div key={plan.tier} className={`rounded-2xl p-5 sm:p-8 border relative overflow-hidden ${
-                  plan.featured
-                    ? 'bg-blue-700 border-blue-600 text-white'
-                    : plan.pro
-                    ? 'bg-amber-950 border-amber-700 text-white'
-                    : 'bg-white border-gray-200 text-gray-900'
-                }`}>
-                  {plan.featured && (
-                    <div className="absolute top-5 right-5">
-                      <span className="text-[10px] font-bold bg-blue-500/20 text-blue-200 px-2.5 py-1 rounded-full tracking-wide uppercase">Popular</span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+              {PLANS.map(plan => (
+                <div key={plan.tier} className={`plan-${plan.variant}`}
+                  style={{ borderRadius: 18, padding: '32px 28px', position: 'relative', overflow: 'hidden' }}>
+                  {plan.badge && (
+                    <div style={{ position: 'absolute', top: 18, right: 18 }}>
+                      <span style={{
+                        fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 99,
+                        background: plan.variant === 'starter' ? 'rgba(33,150,181,0.2)' : 'rgba(124,92,191,0.2)',
+                        color: plan.variant === 'starter' ? 'var(--teal-pale)' : '#c8b0f5',
+                        letterSpacing: '0.06em', textTransform: 'uppercase',
+                      }}>{plan.badge}</span>
                     </div>
                   )}
-                  {plan.pro && (
-                    <div className="absolute top-5 right-5">
-                      <span className="text-[10px] font-bold bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full tracking-wide uppercase">Best Value</span>
-                    </div>
-                  )}
-                  <div className={`text-xs font-bold tracking-widest uppercase mb-3 ${
-                    plan.featured ? 'text-blue-300' : plan.pro ? 'text-amber-400' : 'text-gray-400'
-                  }`}>{plan.tier}</div>
-                  <div className="serif text-4xl tracking-tight mb-1">{plan.price}</div>
-                  <div className={`text-sm mb-1 ${plan.featured ? 'text-blue-300' : plan.pro ? 'text-amber-400/70' : 'text-gray-400'}`}>{plan.period}</div>
-                  <div className={`text-xs mb-7 ${plan.featured ? 'text-blue-400/70' : plan.pro ? 'text-amber-300/50' : 'text-gray-400'}`}>{plan.desc}</div>
-                  <ul className={`space-y-3 mb-8 border-t pt-6 ${
-                    plan.featured ? 'border-white/10' : plan.pro ? 'border-amber-700/30' : 'border-gray-100'
-                  }`}>
+                  <div style={{
+                    fontSize: 10.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: 12,
+                    color: plan.variant === 'free' ? 'var(--text-muted)' : plan.variant === 'starter' ? 'var(--teal-pale)' : '#c8b0f5',
+                  }}>{plan.tier}</div>
+                  <div className="serif" style={{ fontSize: 38, letterSpacing: '-0.03em', lineHeight: 1, color: plan.variant === 'free' ? 'var(--navy)' : 'white' }}>{plan.price}</div>
+                  <div style={{ fontSize: 13, marginTop: 4, marginBottom: 2, color: plan.variant === 'free' ? 'var(--text-muted)' : 'rgba(255,255,255,0.5)' }}>{plan.period}</div>
+                  <div style={{ fontSize: 12.5, marginBottom: 24, color: plan.variant === 'free' ? 'var(--text-muted)' : 'rgba(255,255,255,0.4)' }}>{plan.desc}</div>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, marginBottom: 28, paddingTop: 20, borderTop: `1px solid ${plan.variant === 'free' ? 'var(--border)' : 'rgba(255,255,255,0.1)'}`, display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {plan.features.map((f, i) => (
-                      <li key={i} className="flex items-center gap-2.5 text-sm">
-                        <Check size={14} className={plan.featured ? 'text-blue-300' : plan.pro ? 'text-amber-400' : 'text-blue-600'} />
-                        <span className={plan.featured ? 'text-white/85' : plan.pro ? 'text-amber-100/85' : 'text-gray-700'}>{f.text}</span>
+                      <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13 }}>
+                        <Check size={13} color={plan.variant === 'free' ? 'var(--teal)' : plan.variant === 'starter' ? 'var(--teal-pale)' : '#c8b0f5'} />
+                        <span style={{ color: plan.variant === 'free' ? 'var(--text-secondary)' : 'rgba(255,255,255,0.8)' }}>{f.text}</span>
                       </li>
                     ))}
                   </ul>
                   <button
-                    onClick={() => !plan.free && navigate('/register')}
-                    disabled={plan.free}
-                    className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
-                      plan.featured
-                        ? 'bg-white text-blue-700 hover:bg-blue-50'
-                        : plan.pro
-                        ? 'bg-amber-400 text-amber-950 hover:bg-amber-300'
-                        : 'bg-gray-700 text-gray-400 cursor-default'
-                    }`}>
+                    onClick={() => plan.variant !== 'free' && navigate('/register')}
+                    disabled={plan.variant === 'free'}
+                    style={{
+                      width: '100%', padding: '12px', borderRadius: 10, fontWeight: 600, fontSize: 13.5,
+                      border: 'none', cursor: plan.variant === 'free' ? 'default' : 'pointer',
+                      fontFamily: "'DM Sans', sans-serif", transition: 'all 0.18s',
+                      background: plan.variant === 'free' ? 'var(--blue-gray)' : plan.variant === 'starter' ? 'rgba(255,255,255,0.15)' : 'rgba(124,92,191,0.3)',
+                      color: plan.variant === 'free' ? 'var(--text-muted)' : 'white',
+                      border: plan.variant !== 'free' ? '1.5px solid rgba(255,255,255,0.2)' : '1.5px solid transparent',
+                    }}
+                    onMouseEnter={e => { if (plan.variant !== 'free') e.currentTarget.style.background = plan.variant === 'starter' ? 'rgba(255,255,255,0.22)' : 'rgba(124,92,191,0.45)'; }}
+                    onMouseLeave={e => { if (plan.variant !== 'free') e.currentTarget.style.background = plan.variant === 'starter' ? 'rgba(255,255,255,0.15)' : 'rgba(124,92,191,0.3)'; }}
+                  >
                     {plan.cta}
                   </button>
                 </div>
               ))}
             </div>
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-500">
+            <div style={{ marginTop: 24, textAlign: 'center' }}>
+              <p style={{ fontSize: 13.5, color: 'var(--text-muted)' }}>
                 Not ready?{' '}
-                <button onClick={() => navigate('/register')} className="text-blue-700 font-semibold hover:underline">
+                <button onClick={() => navigate('/register')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--teal-deep)', fontWeight: 600, fontSize: 13.5, fontFamily: "'DM Sans', sans-serif" }}>
                   Start with free posts →
                 </button>
               </p>
@@ -684,25 +793,21 @@ const Home = () => {
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-32 px-5 sm:px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_700px_400px_at_50%_50%,rgba(37,99,235,0.06),transparent_70%)]" />
-        <Reveal className="relative z-10 max-w-2xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-4">
-            <div className="w-4 h-0.5 bg-blue-500 rounded" /> Ready to start? <div className="w-4 h-0.5 bg-blue-500 rounded" />
-          </div>
-          <h2 className="serif text-[clamp(36px,5vw,64px)] leading-tight tracking-tight mb-4">
-            Stop struggling.<br /><em className="text-blue-700">Start posting.</em>
+      <section style={{ padding: '96px 24px', background: 'var(--blue-gray)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 600px 350px at 50% 50%,rgba(33,150,181,0.08),transparent 70%)', pointerEvents: 'none' }} />
+        <Reveal style={{ position: 'relative', zIndex: 1, maxWidth: 620, margin: '0 auto', textAlign: 'center' }}>
+          <div className="section-eyebrow" style={{ justifyContent: 'center' }}><span className="eyebrow-line" /> Ready to start? <span className="eyebrow-line" /></div>
+          <h2 className="serif" style={{ fontSize: 'clamp(32px,5vw,60px)', lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--navy)', marginBottom: 16 }}>
+            Stop struggling.<br /><em style={{ color: 'var(--teal-deep)' }}>Start posting.</em>
           </h2>
-          <p className="text-base text-gray-500 mb-10">
+          <p style={{ fontSize: 15, color: 'var(--text-secondary)', marginBottom: 40, lineHeight: 1.7 }}>
             Join thousands of professionals who grow their LinkedIn presence with DevPost AI. Free to start — no credit card needed.
           </p>
-          <div className="flex gap-3 justify-center flex-col sm:flex-row items-center">
-            <button onClick={() => navigate('/register')}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/20 hover:-translate-y-0.5">
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button onClick={() => navigate('/register')} className="btn-primary">
               <Sparkles size={15} /> Create free account
             </button>
-            <a href="#features"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl transition-all hover:-translate-y-0.5">
+            <a href="#features" className="btn-secondary">
               Explore features <ArrowRight size={15} />
             </a>
           </div>
@@ -710,24 +815,26 @@ const Home = () => {
       </section>
 
       {/* ─── FOOTER ──────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-gray-100 px-5 sm:px-6 py-10">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center">
-              <Linkedin size={13} className="text-white" />
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '28px 24px', background: 'white' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: 'linear-gradient(135deg, #2196b5, #1a7a9a)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Linkedin size={13} color="white" />
             </div>
-            <span className="font-semibold text-sm">DevPost<span className="text-blue-600">AI</span></span>
+            <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--navy)', letterSpacing: '-0.02em' }}>
+              DevPost<span style={{ color: 'var(--teal)' }}>AI</span>
+            </span>
           </div>
-          <div className="flex gap-6">
+          <div style={{ display: 'flex', gap: 24 }}>
             {[['Privacy', '/privacy'], ['Terms', '/terms'], ['About', '/about'], ['Refund Policy', '/refund-policy']].map(([l, href]) => (
-              <a key={l} href={href} className="text-sm text-gray-400 hover:text-blue-700 transition-colors">{l}</a>
+              <a key={l} href={href} className="footer-link">{l}</a>
             ))}
           </div>
-          <p className="text-xs text-gray-400">© 2026 DevPost AI. Built for creators.</p>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>© 2026 DevPost AI. Built for creators.</p>
         </div>
       </footer>
     </div>
   )
 }
 
-export default Home;
+export default Home
