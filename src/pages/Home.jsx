@@ -1,384 +1,733 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { 
-  Sparkles, 
-  Clock, 
-  TrendingUp, 
-  Zap, 
-  CheckCircle2,
-  Linkedin,
-  ArrowRight,
-  BarChart3,
-  Users,
-  Bot,
-  Menu,
-  X
-} from 'lucide-react';
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import {
+  Sparkles, Linkedin, ArrowRight, Check, X,
+  ChevronRight, Star, Menu, Zap,
+  MessageSquare, PenLine, BarChart2, Users
+} from 'lucide-react'
 
+// ─── Scroll reveal wrapper ────────────────────────────────────────────────────
+function Reveal({ children, delay = 0, className = '' }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-72px' })
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+const FEATURES = [
+  {
+    icon: <Sparkles size={20} />,
+    name: 'Claude AI Writing',
+    desc: 'Powered by Claude — one of the most capable AI models. Understands tone, formats LinkedIn posts that actually get engagement.',
+    chip: 'Claude-Powered',
+    chipColor: 'bg-blue-50 text-blue-700',
+    iconBg: 'bg-blue-50 text-blue-600',
+  },
+  {
+    icon: <Users size={20} />,
+    name: 'Multiple Tones & Styles',
+    desc: 'Educational, motivational, storytelling, controversy — pick a tone and the AI adapts the entire post to match your brand voice.',
+    chip: '8+ Tones',
+    chipColor: 'bg-pink-50 text-pink-700',
+    iconBg: 'bg-pink-50 text-pink-600',
+  },
+  {
+    icon: <Linkedin size={20} />,
+    name: 'Auto-Post to LinkedIn',
+    desc: 'Connect your LinkedIn account once. Posts publish automatically to your profile — no copy-paste, no manual posting, ever.',
+    chip: 'Fully Automated',
+    chipColor: 'bg-amber-50 text-amber-700',
+    iconBg: 'bg-amber-50 text-amber-600',
+  },
+  {
+    icon: <PenLine size={20} />,
+    name: 'Edit Before Posting',
+    desc: 'Want full control? Review and edit every post before it goes live. Save drafts, rewrite sections — your content, your rules.',
+    chip: 'Full Control',
+    chipColor: 'bg-emerald-50 text-emerald-700',
+    iconBg: 'bg-emerald-50 text-emerald-700',
+  },
+  {
+    icon: <MessageSquare size={20} />,
+    name: 'Saved Post Library',
+    desc: 'Every generated post is saved. Browse your history, re-post top performers, and build a content library over time.',
+    chip: 'Post History',
+    chipColor: 'bg-red-50 text-red-700',
+    iconBg: 'bg-red-50 text-red-600',
+  },
+  {
+    icon: <BarChart2 size={20} />,
+    name: 'Analytics & Tracking',
+    desc: 'See likes, comments and shares across all your posts. Know what content resonates so you can double down on what works.',
+    chip: 'Coming Soon',
+    chipColor: 'bg-sky-50 text-sky-600',
+    iconBg: 'bg-sky-50 text-sky-500',
+    soon: true,
+  },
+]
+
+const STEPS = [
+  {
+    num: '01',
+    name: 'Create your account',
+    desc: 'Sign up in seconds — no credit card required. Connect your LinkedIn profile during onboarding and you\'re ready to post.',
+  },
+  {
+    num: '02',
+    name: 'Generate your post',
+    desc: 'Enter a topic, pick a tone and length. Claude AI writes a professional LinkedIn post in under 10 seconds.',
+  },
+  {
+    num: '03',
+    name: 'Post automatically',
+    desc: 'Hit "Post to LinkedIn" and it publishes directly to your profile. Or save it as a draft and post later.',
+  },
+]
+
+const TESTIMONIALS = [
+  {
+    stars: 5,
+    quote: "I was inconsistent on LinkedIn for years. With DevPost AI I went from posting once a month to posting daily. My connection requests tripled in 6 weeks.",
+    name: 'Sara Malik',
+    role: 'Product Manager, Lahore',
+    initials: 'SM',
+    avatarColor: 'bg-blue-100 text-blue-700',
+    featured: false,
+  },
+  {
+    stars: 5,
+    quote: "The auto-post feature is a game changer. I generate 7 posts on Sunday and they publish throughout the week automatically. My engagement is up 4x.",
+    name: 'Usman Tariq',
+    role: 'Startup Founder, Karachi',
+    initials: 'UT',
+    avatarColor: 'bg-emerald-100 text-emerald-700',
+    featured: true,
+  },
+  {
+    stars: 5,
+    quote: "I always had ideas but zero time to write. DevPost turns a rough topic into a polished post in seconds. Worth every penny.",
+    name: 'Ayesha Khan',
+    role: 'Marketing Director, Islamabad',
+    initials: 'AK',
+    avatarColor: 'bg-pink-100 text-pink-700',
+    featured: false,
+  },
+]
+
+const PLANS = [
+  {
+    tier: 'Free',
+    price: '$0',
+    period: 'per month',
+    desc: 'Get started with AI-powered LinkedIn posts',
+    features: [
+      { text: '3 AI-generated posts/month', ok: true },
+      { text: 'Basic tones & styles', ok: true },
+      { text: 'Copy & save posts', ok: true },
+      { text: 'Manual LinkedIn posting', ok: true },
+    ],
+    cta: 'Free Forever',
+    featured: false,
+    free: true,
+  },
+  {
+    tier: 'Starter',
+    price: 'Rs 1,000',
+    period: 'per month',
+    desc: 'For professionals growing their presence',
+    features: [
+      { text: '20 AI-generated posts/month', ok: true },
+      { text: 'All tones & styles', ok: true },
+      { text: 'LinkedIn auto-post', ok: true },
+      { text: 'Post history & analytics', ok: true },
+      { text: 'Priority support', ok: true },
+    ],
+    cta: 'Upgrade to Starter',
+    featured: true,
+  },
+  {
+    tier: 'Pro',
+    price: 'Rs 2,000',
+    period: 'per month',
+    desc: 'For power users and teams',
+    features: [
+      { text: '50 AI-generated posts/month', ok: true },
+      { text: 'All tones & styles', ok: true },
+      { text: 'LinkedIn auto-post', ok: true },
+      { text: 'Advanced analytics', ok: true },
+      { text: 'Priority support', ok: true },
+      { text: 'Early access to new features', ok: true },
+    ],
+    cta: 'Upgrade to Pro',
+    featured: false,
+    pro: true,
+  },
+]
+
+const TOOL_PILLS = [
+  { icon: <Sparkles size={16} />, label: 'AI Writing', color: 'text-blue-600 bg-blue-50' },
+  { icon: <Linkedin size={16} />, label: 'Auto-Post', color: 'text-sky-600 bg-sky-50' },
+  { icon: <Users size={16} />, label: 'Tone Control', color: 'text-pink-600 bg-pink-50' },
+  { icon: <PenLine size={16} />, label: 'Draft & Edit', color: 'text-amber-600 bg-amber-50' },
+  { icon: <BarChart2 size={16} />, label: 'Analytics', color: 'text-emerald-700 bg-emerald-50' },
+]
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 const Home = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate()
+  const { user, isAuthenticated } = useAuth()
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [demoTone, setDemoTone] = useState('educational')
+
+  useEffect(() => {
+    if (!document.getElementById('devpost-fonts')) {
+      const link = document.createElement('link')
+      link.id = 'devpost-fonts'
+      link.rel = 'stylesheet'
+      link.href = 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap'
+      document.head.appendChild(link)
+    }
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const demoPost = {
+    educational: `🧠 Most people underestimate the power of compounding in their career.\n\nHere's what 1% improvement daily looks like over a year:\n\n→ Day 1: 1.00\n→ Day 30: 1.35\n→ Day 365: 37.78\n\nThe professionals winning are not the ones working harder.\n\nThey're the ones who compound their skills, relationships, and presence consistently.\n\nStart today. Post one insight. Share one lesson.\n\n#LinkedInGrowth #CareerAdvice #PersonalDevelopment`,
+    motivational: `You don't need permission to start.\n\nEvery expert was once a beginner who decided to begin anyway.\n\nThe difference between where you are and where you want to be:\n\n→ Not talent.\n→ Not connections.\n→ Not luck.\n\nIt's consistency. Show up. Every. Single. Day.\n\nYour future self is counting on what you do today. 💪\n\n#Motivation #Growth #Success`,
+    storytelling: `6 months ago, I almost quit LinkedIn.\n\nMy posts got 3 likes. My connections were stagnant. I felt invisible.\n\nThen I made one change.\n\nI stopped posting what I thought people wanted to hear.\nI started sharing what actually helped me.\n\nWeek 1: 12 likes.\nWeek 4: 200+ reactions.\nMonth 3: 500 new followers.\n\nAuthenticity is a growth strategy.\n\nWhat's one real lesson you've learned this year?\n\n#LinkedIn #PersonalBrand #Content`,
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      {/* Navigation */}
-      <nav className="bg-white/90 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 sm:h-20">
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl flex items-center justify-center shadow-lg">
-                <Sparkles className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
-              </div>
-              <div>
-                <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">DevPost AI</span>
-                <p className="text-[10px] sm:text-xs text-gray-500 font-medium">LinkedIn Content Engine</p>
-              </div>
-            </div>
+    <div className="bg-[#fdfcf8] text-gray-900 overflow-x-hidden">
+      <style>{`
+        .serif { font-family: 'Instrument Serif', Georgia, serif; }
+        @keyframes float-0 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-7px)} }
+        @keyframes float-1 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-9px)} }
+        @keyframes float-2 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-6px)} }
+        @keyframes float-3 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-10px)} }
+        @keyframes float-4 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-7px)} }
+        .float-0{animation:float-0 2.8s ease-in-out 0s infinite}
+        .float-1{animation:float-1 3.1s ease-in-out 0.2s infinite}
+        .float-2{animation:float-2 2.6s ease-in-out 0.4s infinite}
+        .float-3{animation:float-3 3.3s ease-in-out 0.1s infinite}
+        .float-4{animation:float-4 2.9s ease-in-out 0.3s infinite}
+        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.35)}}
+        .pulse-dot{animation:pulse-dot 2s ease-in-out infinite}
+      `}</style>
 
-            {/* Desktop nav */}
-            <div className="hidden sm:flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="px-5 py-2.5 text-gray-700 hover:text-primary-600 font-semibold transition-all duration-200 hover:bg-gray-50 rounded-lg"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg"
-              >
-                Get Started Free
-              </Link>
+      {/* ─── NAV ─────────────────────────────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled || mobileNavOpen ? 'bg-[#fdfcf8]/95 backdrop-blur-xl shadow-sm border-b border-gray-100' : 'bg-transparent'
+      }`}>
+        <div className="px-5 md:px-12 py-4 max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Linkedin size={16} className="text-white" />
             </div>
+            <span className="font-semibold text-gray-900 tracking-tight">
+              DevPost<span className="text-blue-600">AI</span>
+            </span>
+          </div>
 
-            {/* Mobile hamburger */}
+          <div className="hidden md:flex items-center gap-1">
+            {['Features', 'How it works', 'Pricing'].map((l) => (
+              <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`}
+                className="px-4 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
+                {l}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {isAuthenticated ? (
+              <div className="hidden md:flex items-center gap-2">
+                <button onClick={() => navigate('/dashboard')}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all">
+                  Dashboard
+                </button>
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center gap-2">
+                <button onClick={() => navigate('/login')}
+                  className="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-all">
+                  Log in
+                </button>
+                <button onClick={() => navigate('/register')}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all shadow-sm">
+                  Get started free
+                </button>
+              </div>
+            )}
+
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="sm:hidden p-2 text-gray-600 hover:text-primary-600 transition-colors"
+              onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}
+              className="md:hidden px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-all"
+            >
+              {isAuthenticated ? 'Dashboard' : 'Start free'}
+            </button>
+            <button
+              onClick={() => setMobileNavOpen(o => !o)}
+              className="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileNavOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-
-          {/* Mobile menu */}
-          {mobileMenuOpen && (
-            <div className="sm:hidden border-t border-gray-200 py-4 space-y-3">
-              <Link
-                to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-2.5 text-gray-700 hover:text-primary-600 font-semibold transition-all rounded-lg hover:bg-gray-50"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block mx-4 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-semibold text-center shadow-lg"
-              >
-                Get Started Free
-              </Link>
-            </div>
-          )}
         </div>
+
+        {mobileNavOpen && (
+          <div className="md:hidden border-t border-gray-100 bg-[#fdfcf8]/98 px-5 py-3 space-y-0.5">
+            {['Features', 'How it works', 'Pricing'].map((l) => (
+              <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`}
+                onClick={() => setMobileNavOpen(false)}
+                className="block px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">{l}</a>
+            ))}
+            {!isAuthenticated && (
+              <div className="pt-2 border-t border-gray-100 space-y-0.5">
+                <button onClick={() => { navigate('/login'); setMobileNavOpen(false) }}
+                  className="block w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all">
+                  Log in
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </nav>
 
-      {/* Hero Section */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-24 pb-12 sm:pb-20">
-        {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-48 sm:w-72 h-48 sm:h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-48 sm:w-72 h-48 sm:h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-        
-        <div className="relative text-center space-y-6 sm:space-y-10">
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-50 to-indigo-50 text-primary-700 px-4 py-2 sm:px-5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold border-2 border-primary-200 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
-            <span>Powered by Claude AI</span>
-          </div>
-
-          {/* Main Heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold text-gray-900 leading-tight tracking-tight">
-            Your LinkedIn Presence,
-            <br />
-            <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-indigo-600 bg-clip-text text-transparent animate-gradient">
-              On Autopilot
-            </span>
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-base sm:text-xl lg:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium px-2">
-            Generate engaging, professional LinkedIn posts in <span className="text-primary-600 font-bold">seconds</span> using <span className="text-primary-600 font-bold">Claude AI</span>. 
-            Then sit back as they <span className="text-primary-600 font-bold">automatically post to your profile</span>. 
-            Stay consistent, grow your presence, no time commitment.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 pt-4 sm:pt-6">
-            <Link
-              to="/register"
-              className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-2xl font-bold text-lg sm:text-xl hover:shadow-2xl hover:scale-105 sm:hover:scale-110 transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl"
-            >
-              <span>Start Creating for Free</span>
-              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition-transform duration-300" />
-            </Link>
-            <Link
-              to="/about"
-              className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-white text-gray-800 rounded-2xl font-bold text-lg sm:text-xl border-2 border-gray-300 hover:border-primary-600 hover:text-primary-600 hover:shadow-xl transition-all duration-300 text-center"
-            >
-              Watch Demo
-            </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 pt-12 sm:pt-20 max-w-5xl mx-auto">
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100">
-              <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">10x</div>
-              <div className="text-gray-700 mt-2 sm:mt-3 font-semibold text-base sm:text-lg">Faster Content Creation</div>
-            </div>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100">
-              <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">95%</div>
-              <div className="text-gray-700 mt-2 sm:mt-3 font-semibold text-base sm:text-lg">Time Saved Weekly</div>
-            </div>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100">
-              <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">24/7</div>
-              <div className="text-gray-700 mt-2 sm:mt-3 font-semibold text-base sm:text-lg">Content Ready</div>
-            </div>
-          </div>
+      {/* ─── HERO ────────────────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden px-5 sm:px-6" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: '96px', paddingBottom: '64px' }}>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_600px_at_50%_30%,rgba(37,99,235,0.07),transparent_70%)]" />
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px)',
+            backgroundSize: '56px 56px',
+            maskImage: 'radial-gradient(ellipse 70% 55% at 50% 50%,black 0%,transparent 80%)',
+          }} />
         </div>
-      </div>
 
-      {/* Problem Section */}
-      <div className="py-12 sm:py-24 bg-gradient-to-b from-white via-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 sm:space-y-6 mb-12 sm:mb-20">
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900">
-              The LinkedIn Dilemma
-            </h2>
-            <p className="text-lg sm:text-2xl text-gray-600 max-w-4xl mx-auto font-medium px-2">
-              We all know consistent LinkedIn posting is crucial for professional growth, 
-              but who has the time?
-            </p>
-          </div>
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-3 py-1.5 mb-8 shadow-sm"
+          >
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 pulse-dot" />
+            <span className="text-xs font-medium text-blue-800">LinkedIn Content Engine · Powered by Claude AI</span>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 max-w-6xl mx-auto">
-            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border-2 border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:border-primary-300">
-              <div className="bg-gradient-to-br from-primary-100 to-primary-50 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Clock className="w-7 h-7 sm:w-9 sm:h-9 text-primary-600" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">No Time to Post</h3>
-              <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                Between meetings, deadlines, and life, creating quality content gets pushed to "someday"
-              </p>
-            </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="serif text-[clamp(52px,8vw,86px)] leading-[1.05] tracking-[-3px] text-gray-900"
+          >
+            Your LinkedIn presence,<br />
+            <em className="text-blue-700">on autopilot.</em>
+          </motion.h1>
 
-            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border-2 border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:border-primary-300">
-              <div className="bg-gradient-to-br from-primary-100 to-primary-50 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
-                <TrendingUp className="w-7 h-7 sm:w-9 sm:h-9 text-primary-600" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Falling Behind</h3>
-              <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                Your competitors are posting daily while your profile collects dust
-              </p>
-            </div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.16 }}
+            className="mt-5 text-lg font-light text-gray-500 max-w-xl mx-auto leading-relaxed"
+          >
+            Generate professional LinkedIn posts with Claude AI in seconds — then watch them publish automatically to your profile. Stay consistent without the time commitment.
+          </motion.p>
 
-            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border-2 border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:border-primary-300">
-              <div className="bg-gradient-to-br from-primary-100 to-primary-50 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Zap className="w-7 h-7 sm:w-9 sm:h-9 text-primary-600" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Writer's Block</h3>
-              <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                Staring at a blank screen, struggling to find the right words or ideas
-              </p>
-            </div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.24 }}
+            className="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center"
+          >
+            <button
+              onClick={() => navigate('/register')}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-[15px] transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 hover:-translate-y-0.5"
+            >
+              <Sparkles size={15} /> Start for free
+            </button>
+            <a
+              href="#features"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 rounded-xl text-[15px] transition-all hover:-translate-y-0.5"
+            >
+              See all features <ChevronRight size={15} />
+            </a>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+            className="mt-4 text-xs text-gray-400"
+          >
+            No credit card required · Free posts included · Upgrade anytime
+          </motion.p>
         </div>
-      </div>
 
-      {/* Solution Section */}
-      <div className="py-12 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 sm:space-y-6 mb-10 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
-              Your Solution is Here
-            </h2>
-            <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-              DevPost AI generates professional, engaging LinkedIn content in seconds using Claude AI. 
-              Just pick a topic, customize the tone, connect LinkedIn, and watch posts publish automatically.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <div className="space-y-6">
-          <div className="flex items-start space-x-4">
-                <div className="bg-primary-50 p-3 rounded-lg border border-primary-100">
-                  <Bot className="w-6 h-6 text-primary-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Claude AI Writing</h3>
-                  <p className="text-gray-600">
-                    Powered by Claude, one of the most advanced AI models. Understands LinkedIn's tone and creates posts that resonate
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="bg-primary-50 p-3 rounded-lg border border-primary-100">
-                  <Clock className="w-6 h-6 text-primary-500" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Minutes to Seconds</h3>
-                  <p className="text-gray-600">
-                    What used to take 30+ minutes now takes less than 30 seconds. Generate, review, post.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="bg-primary-50 p-3 rounded-lg border border-primary-100">
-                  <Users className="w-6 h-6 text-primary-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Multiple Tones & Styles</h3>
-                  <p className="text-gray-600">
-                    Educational, motivational, storytelling - customize the tone to match your brand
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="bg-primary-50 p-3 rounded-lg border border-primary-100">
-                  <Linkedin className="w-6 h-6 text-primary-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Auto-Post to LinkedIn</h3>
-                  <p className="text-gray-600">
-                    Connect your LinkedIn and posts publish automatically. No copy-paste, no manual posting. Just generate and go.
-                  </p>
-                </div>
-              </div>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="relative z-10 mt-16 flex flex-wrap justify-center gap-3 max-w-xl mx-auto"
+        >
+          {TOOL_PILLS.map((t, i) => (
+            <div key={t.label} className={`float-${i} bg-white border border-gray-100 rounded-xl px-4 py-2.5 flex items-center gap-2 shadow-sm`}>
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${t.color}`}>{t.icon}</div>
+              <span className="text-xs font-medium text-gray-600">{t.label}</span>
             </div>
+          ))}
+        </motion.div>
+      </section>
 
-            <div className="bg-primary-600 rounded-2xl p-1">
-              <div className="bg-white rounded-xl p-8">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between pb-4 border-b">
-                    <span className="font-semibold text-gray-700">Generate Post</span>
-                    <Sparkles className="w-5 h-5 text-primary-600" />
+      {/* ─── DEMO ─────────────────────────────────────────────────────────────── */}
+      <section className="py-16 sm:py-28 px-5 sm:px-6 bg-[#f7f6f2]">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
+                <div className="w-4 h-0.5 bg-blue-500 rounded" /> See it in action
+              </div>
+              <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
+                AI-written posts that<br /><em className="text-blue-700">actually sound like you</em>
+              </h2>
+            </div>
+            <p className="text-base text-gray-500 max-w-md leading-relaxed">
+              Pick a tone, enter a topic, and Claude writes a ready-to-post LinkedIn update in seconds. Then hit post — it publishes automatically.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6 items-start">
+            {/* Left: tone selector */}
+            <Reveal className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm">
+              <div className="text-xs font-bold tracking-widest uppercase text-gray-400 mb-4">Pick a tone</div>
+              <div className="flex flex-col gap-2">
+                {[
+                  { id: 'educational', label: 'Educational', icon: <BarChart2 size={16} /> },
+                  { id: 'motivational', label: 'Motivational', icon: <Zap size={16} /> },
+                  { id: 'storytelling', label: 'Storytelling', icon: <MessageSquare size={16} /> },
+                ].map((t) => {
+                  const active = demoTone === t.id
+                  return (
+                    <button key={t.id} onClick={() => setDemoTone(t.id)}
+                      className={`flex items-center gap-2.5 px-3.5 py-3 rounded-xl border transition-all text-left ${
+                        active ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white hover:bg-gray-50 text-gray-700 border-gray-200'
+                      }`}>
+                      <span className={`w-8 h-8 rounded-lg flex items-center justify-center ${active ? 'bg-white/10 text-white' : 'bg-blue-50 text-blue-700'}`}>{t.icon}</span>
+                      <span className="text-sm font-semibold">{t.label}</span>
+                      <span className={`ml-auto text-xs font-semibold ${active ? 'text-blue-200' : 'text-gray-400'}`}>→</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              <div className="mt-6 border-t border-gray-100 pt-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
+                    <Check size={16} />
                   </div>
-                  <div className="space-y-3">
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-sm text-gray-500 mb-1">Topic</div>
-                      <div className="text-gray-900">AI in business</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-sm text-gray-500 mb-1">Tone</div>
-                      <div className="text-gray-900">Educational</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-sm text-gray-500 mb-1">Length</div>
-                      <div className="text-gray-900">Medium</div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-900">Ready to post instantly</div>
+                    <p className="text-sm text-gray-500 leading-relaxed mt-0.5">Connect LinkedIn once — posts publish with a single click, or automatically on a schedule.</p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Right: generated post preview */}
+            <Reveal className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+              <div className="px-5 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
+                    <Linkedin size={16} className="text-white" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-900">Generated LinkedIn Post</div>
+                    <div className="text-xs text-gray-400">Tone: {demoTone.charAt(0).toUpperCase() + demoTone.slice(1)} · Ready to post</div>
+                  </div>
+                </div>
+                <button onClick={() => navigate('/register')}
+                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-all">
+                  Try it now <ArrowRight size={14} />
+                </button>
+              </div>
+
+              <div className="p-5 sm:p-6">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold">Y</div>
+                    <div>
+                      <div className="text-sm font-semibold text-gray-900">Your Name</div>
+                      <div className="text-xs text-gray-400">Your Title · Just now</div>
                     </div>
                   </div>
-                  <button className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center space-x-2">
-                    <Sparkles className="w-5 h-5" />
-                    <span>Generate & Post</span>
+                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans">
+                    {demoPost[demoTone]}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="px-5 sm:px-6 py-4 border-t border-gray-100 bg-white flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                <div className="text-sm text-gray-600">
+                  <span className="font-semibold text-gray-900">Pro unlocks</span> auto-scheduling + unlimited posts.
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => navigate('/login')}
+                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-semibold transition-all">
+                    Log in
                   </button>
-                  <div className="mt-4 p-4 bg-green-50 rounded-lg border-2 border-green-200">
-                    <div className="text-sm text-green-700 mb-2 font-semibold">✅ Posted to LinkedIn!</div>
-                    <div className="text-sm text-green-700">
-                      Your post is now live on your LinkedIn profile
-                    </div>
-                  </div>
+                  <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all">
+                    See pricing
+                  </button>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* ─── STATS BAR ───────────────────────────────────────────────────────── */}
+      <div className="bg-blue-700 py-6 px-6">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 overflow-hidden">
+          {[
+            { num: '10,000+', label: 'Posts generated' },
+            { num: '5,000+', label: 'Active creators' },
+            { num: '30s', label: 'Avg generation time' },
+            { num: '4.9 ★', label: 'Average rating' },
+          ].map((s) => (
+            <div key={s.label} className="text-center py-5 px-4 bg-blue-700">
+              <div className="serif text-2xl text-white">{s.num}</div>
+              <div className="text-xs text-white/50 mt-0.5">{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Features Grid */}
-      <div className="py-12 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-              Everything You Need
-            </h2>
-            <p className="text-base sm:text-xl text-gray-600">
-              Powerful features to supercharge your LinkedIn presence
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              { icon: Sparkles, title: 'Claude AI Generation', desc: 'Powered by advanced Claude AI' },
-              { icon: Users, title: 'Multiple Tones', desc: 'Educational, motivational, storytelling' },
-              { icon: Linkedin, title: 'Auto-Post to LinkedIn', desc: 'Posts publish automatically to your profile' },
-              { icon: Clock, title: 'Lightning Fast', desc: 'Generate & post in under 30 seconds' },
-              { icon: CheckCircle2, title: 'Manual Control', desc: 'Edit before posting if you want' },
-              { icon: BarChart3, title: 'Track Performance', desc: 'See engagement on all your posts' }
-            ].map((feature, idx) => (
-              <div key={idx} className="bg-white rounded-xl p-6 border border-gray-100 shadow-md hover:shadow-xl transition-shadow">
-                <feature.icon className="w-10 h-10 text-primary-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
+      {/* ─── FEATURES ────────────────────────────────────────────────────────── */}
+      <section id="features" className="py-16 sm:py-28 px-5 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
+                <div className="w-4 h-0.5 bg-blue-500 rounded" /> Features
               </div>
+              <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
+                Six powerful tools,<br /><em className="text-blue-700">one platform</em>
+              </h2>
+            </div>
+            <p className="text-base text-gray-500 max-w-sm leading-relaxed">
+              From AI writing to auto-publishing — DevPost AI handles every part of your LinkedIn content workflow.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden">
+            {FEATURES.map((f, i) => (
+              <Reveal key={f.name} delay={i * 0.05}>
+                <div className={`bg-white p-5 sm:p-8 h-full hover:bg-blue-50/50 transition-colors duration-200 ${f.soon ? 'opacity-55' : ''}`}>
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${f.iconBg}`}>{f.icon}</div>
+                  <h3 className="font-semibold text-gray-900 mb-2">{f.name}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
+                  <span className={`inline-block mt-4 text-[11px] font-semibold px-2.5 py-1 rounded-full ${f.chipColor}`}>{f.chip}</span>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* CTA Section */}
-      <div className="relative bg-indigo-700 py-16 sm:py-28 overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-10 left-10 w-40 sm:w-64 h-40 sm:h-64 bg-white rounded-full filter blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-48 sm:w-80 h-48 sm:h-80 bg-white rounded-full filter blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4 sm:mb-6 leading-tight">
-            Start Posting to LinkedIn on Autopilot
-          </h2>
-          <p className="text-lg sm:text-2xl text-white/90 mb-8 sm:mb-10 font-medium max-w-3xl mx-auto px-2">
-            Generate posts with AI. They post automatically. Build your presence while you focus on what matters.
-          </p>
-          <Link
-            to="/register"
-            className="inline-flex items-center space-x-3 px-8 sm:px-12 py-4 sm:py-6 bg-white text-primary-700 rounded-2xl font-bold text-lg sm:text-xl hover:shadow-2xl hover:scale-105 sm:hover:scale-110 transition-all duration-300 shadow-2xl group"
-          >
-            <span>Get Started Free</span>
-            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition-transform duration-300" />
-          </Link>
-          <p className="text-white/80 mt-4 sm:mt-6 text-sm sm:text-lg font-semibold px-4">No credit card required • Start creating in minutes • Cancel anytime</p>
-        </div>
-      </div>
+      {/* ─── HOW IT WORKS ────────────────────────────────────────────────────── */}
+      <section id="how-it-works" className="py-16 sm:py-28 px-5 sm:px-6 bg-gray-950 text-white">
+        <div className="max-w-5xl mx-auto">
+          <Reveal>
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-3">
+              <div className="w-4 h-0.5 bg-blue-500 rounded" /> How it works
+            </div>
+            <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
+              Up and running<br /><em className="text-blue-400">in 60 seconds</em>
+            </h2>
+          </Reveal>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-100 text-gray-600 py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center space-y-4 md:flex-row md:justify-between md:space-y-0">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <span className="text-lg font-bold text-gray-900">DevPost AI</span>
-                <p className="text-[10px] text-gray-500">LinkedIn Content Engine</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-              <Link to="/about" className="hover:text-primary-600 transition-colors text-sm sm:text-base">About</Link>
-              <Link to="/privacy" className="hover:text-primary-600 transition-colors text-sm sm:text-base">Privacy</Link>
-              <Link to="/terms" className="hover:text-primary-600 transition-colors text-sm sm:text-base">Terms</Link>
-              <Link to="/refund-policy" className="hover:text-primary-600 transition-colors text-sm sm:text-base">Refund Policy</Link>
-            </div>
-            <div className="text-xs sm:text-sm text-gray-500">
-              © 2026 DevPost AI. All rights reserved.
-            </div>
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            {STEPS.map((s, i) => (
+              <Reveal key={s.num} delay={i * 0.1}>
+                <div>
+                  <div className="serif text-[80px] leading-none text-white/12 select-none mb-2">{s.num}</div>
+                  <div className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-xs font-semibold text-white/80 mb-5">{i + 1}</div>
+                  <h3 className="font-semibold text-lg mb-3">{s.name}</h3>
+                  <p className="text-sm text-white/70 leading-relaxed">{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIALS ────────────────────────────────────────────────────── */}
+      <section className="py-16 sm:py-28 px-5 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
+              <div className="w-4 h-0.5 bg-blue-500 rounded" /> Reviews <div className="w-4 h-0.5 bg-blue-500 rounded" />
+            </div>
+            <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
+              Loved by creators<br /><em className="text-blue-700">everywhere</em>
+            </h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08}>
+                <div className={`rounded-2xl p-7 h-full border transition-all hover:-translate-y-1 hover:shadow-lg duration-200 ${
+                  t.featured ? 'bg-blue-50 border-blue-200 shadow-md' : 'bg-white border-gray-100'
+                }`}>
+                  <div className="flex gap-0.5 mb-4">
+                    {Array.from({ length: t.stars }).map((_, j) => (
+                      <Star key={j} size={13} className="fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed italic mb-6">"{t.quote}"</p>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold ${t.avatarColor}`}>{t.initials}</div>
+                    <div>
+                      <div className="text-sm font-semibold text-gray-900">{t.name}</div>
+                      <div className="text-xs text-gray-400">{t.role}</div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── PRICING ─────────────────────────────────────────────────────────── */}
+      <section id="pricing" className="py-16 sm:py-28 px-5 sm:px-6 bg-[#f7f6f2]">
+        <div className="max-w-5xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
+              <div className="w-4 h-0.5 bg-blue-500 rounded" /> Pricing <div className="w-4 h-0.5 bg-blue-500 rounded" />
+            </div>
+            <h2 className="serif text-[clamp(32px,4vw,52px)] leading-tight tracking-tight">
+              Simple, creator-friendly<br /><em className="text-blue-700">pricing</em>
+            </h2>
+            <p className="mt-3 text-sm text-gray-500">Start free. Upgrade for auto-posting and unlimited content.</p>
+          </Reveal>
+
+          <Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {PLANS.map((plan) => (
+                <div key={plan.tier} className={`rounded-2xl p-5 sm:p-8 border relative overflow-hidden ${
+                  plan.featured
+                    ? 'bg-blue-700 border-blue-600 text-white'
+                    : plan.pro
+                    ? 'bg-amber-950 border-amber-700 text-white'
+                    : 'bg-white border-gray-200 text-gray-900'
+                }`}>
+                  {plan.featured && (
+                    <div className="absolute top-5 right-5">
+                      <span className="text-[10px] font-bold bg-blue-500/20 text-blue-200 px-2.5 py-1 rounded-full tracking-wide uppercase">Popular</span>
+                    </div>
+                  )}
+                  {plan.pro && (
+                    <div className="absolute top-5 right-5">
+                      <span className="text-[10px] font-bold bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full tracking-wide uppercase">Best Value</span>
+                    </div>
+                  )}
+                  <div className={`text-xs font-bold tracking-widest uppercase mb-3 ${
+                    plan.featured ? 'text-blue-300' : plan.pro ? 'text-amber-400' : 'text-gray-400'
+                  }`}>{plan.tier}</div>
+                  <div className="serif text-4xl tracking-tight mb-1">{plan.price}</div>
+                  <div className={`text-sm mb-1 ${plan.featured ? 'text-blue-300' : plan.pro ? 'text-amber-400/70' : 'text-gray-400'}`}>{plan.period}</div>
+                  <div className={`text-xs mb-7 ${plan.featured ? 'text-blue-400/70' : plan.pro ? 'text-amber-300/50' : 'text-gray-400'}`}>{plan.desc}</div>
+                  <ul className={`space-y-3 mb-8 border-t pt-6 ${
+                    plan.featured ? 'border-white/10' : plan.pro ? 'border-amber-700/30' : 'border-gray-100'
+                  }`}>
+                    {plan.features.map((f, i) => (
+                      <li key={i} className="flex items-center gap-2.5 text-sm">
+                        <Check size={14} className={plan.featured ? 'text-blue-300' : plan.pro ? 'text-amber-400' : 'text-blue-600'} />
+                        <span className={plan.featured ? 'text-white/85' : plan.pro ? 'text-amber-100/85' : 'text-gray-700'}>{f.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => !plan.free && navigate('/register')}
+                    disabled={plan.free}
+                    className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+                      plan.featured
+                        ? 'bg-white text-blue-700 hover:bg-blue-50'
+                        : plan.pro
+                        ? 'bg-amber-400 text-amber-950 hover:bg-amber-300'
+                        : 'bg-gray-700 text-gray-400 cursor-default'
+                    }`}>
+                    {plan.cta}
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-500">
+                Not ready?{' '}
+                <button onClick={() => navigate('/register')} className="text-blue-700 font-semibold hover:underline">
+                  Start with free posts →
+                </button>
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ─── FINAL CTA ───────────────────────────────────────────────────────── */}
+      <section className="py-20 sm:py-32 px-5 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_700px_400px_at_50%_50%,rgba(37,99,235,0.06),transparent_70%)]" />
+        <Reveal className="relative z-10 max-w-2xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-700 mb-4">
+            <div className="w-4 h-0.5 bg-blue-500 rounded" /> Ready to start? <div className="w-4 h-0.5 bg-blue-500 rounded" />
+          </div>
+          <h2 className="serif text-[clamp(36px,5vw,64px)] leading-tight tracking-tight mb-4">
+            Stop struggling.<br /><em className="text-blue-700">Start posting.</em>
+          </h2>
+          <p className="text-base text-gray-500 mb-10">
+            Join thousands of professionals who grow their LinkedIn presence with DevPost AI. Free to start — no credit card needed.
+          </p>
+          <div className="flex gap-3 justify-center flex-col sm:flex-row items-center">
+            <button onClick={() => navigate('/register')}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/20 hover:-translate-y-0.5">
+              <Sparkles size={15} /> Create free account
+            </button>
+            <a href="#features"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl transition-all hover:-translate-y-0.5">
+              Explore features <ArrowRight size={15} />
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ─── FOOTER ──────────────────────────────────────────────────────────── */}
+      <footer className="border-t border-gray-100 px-5 sm:px-6 py-10">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center">
+              <Linkedin size={13} className="text-white" />
+            </div>
+            <span className="font-semibold text-sm">DevPost<span className="text-blue-600">AI</span></span>
+          </div>
+          <div className="flex gap-6">
+            {[['Privacy', '/privacy'], ['Terms', '/terms'], ['About', '/about'], ['Refund Policy', '/refund-policy']].map(([l, href]) => (
+              <a key={l} href={href} className="text-sm text-gray-400 hover:text-blue-700 transition-colors">{l}</a>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400">© 2026 DevPost AI. Built for creators.</p>
         </div>
       </footer>
     </div>
-  );
-};
+  )
+}
 
 export default Home;
