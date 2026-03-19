@@ -368,6 +368,197 @@ const Home = () => {
 
         .footer-link { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
         .footer-link:hover { color: var(--teal-deep); }
+
+        /* ──── MOBILE RESPONSIVE ──── */
+        @media (max-width: 768px) {
+          /* Nav */
+          .nav-link { display: none; }
+          .desktop-nav { display: none; }
+
+          /* Hero section */
+          section { padding: 60px 16px !important; }
+
+          /* Features grid - 1 column on mobile, 2 on tablet, 3 on desktop */
+          .features-grid { 
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+
+          /* How it works - 1 column on mobile */
+          .how-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+
+          /* Testimonials - 1 column on mobile */
+          .testimonials-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
+
+          /* Pricing - 1 column on mobile */
+          .pricing-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+
+          /* Stats bar - 2 columns on mobile */
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0 !important;
+          }
+
+          /* Demo section - stack vertically */
+          .demo-layout {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+
+          /* Footer - single column on mobile */
+          .footer-container {
+            flex-direction: column !important;
+            text-align: center !important;
+          }
+
+          .footer-links {
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+
+          /* Floating pills - reduce on mobile */
+          .pills-container {
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+          }
+
+          .pill-item {
+            flex: 0 0 calc(50% - 4px) !important;
+          }
+
+          /* Buttons - full width on mobile */
+          .cta-buttons {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+
+          .btn-primary, .btn-secondary {
+            width: 100% !important;
+          }
+
+          /* Hero heading - smaller on mobile */
+          .hero-title {
+            font-size: clamp(32px, 8vw, 82px) !important;
+          }
+
+          /* Section heading - smaller on mobile */
+          .section-title {
+            font-size: clamp(24px, 6vw, 48px) !important;
+          }
+
+          /* Demo card header - stack on mobile */
+          .demo-header {
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+
+          .demo-header-left {
+            width: 100% !important;
+          }
+
+          .demo-header button {
+            width: 100% !important;
+          }
+
+          /* Reduce padding on small sections */
+          .stat-bar { padding: 16px 12px !important; }
+
+          /* Feature card padding */
+          .feature-card { padding: 20px 16px !important; }
+
+          /* Pricing card padding */
+          .plan-card { padding: 24px 20px !important; }
+
+          h1 { font-size: clamp(28px, 7vw, 82px) !important; }
+          h2 { font-size: clamp(22px, 5.5vw, 48px) !important; }
+        }
+
+        @media (min-width: 640px) and (max-width: 1024px) {
+          /* Tablet optimizations */
+          section { padding: 64px 24px !important; }
+
+          .features-grid { 
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+          }
+
+          .testimonials-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 14px !important;
+          }
+
+          .pricing-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+          }
+
+          .how-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 32px !important;
+          }
+
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+
+          .pill-item {
+            flex: 0 0 calc(50% - 6px) !important;
+          }
+        }
+
+        @media (max-width: 640px) {
+          /* Extra mobile optimizations */
+          section { padding: 48px 12px !important; }
+
+          /* Tone pills - single column */
+          .pill-item {
+            flex: 0 0 100% !important;
+          }
+
+          .pills-container {
+            gap: 8px !important;
+          }
+
+          /* Stats - single column on very small screens */
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Very aggressive padding reduction */
+          .feature-card { padding: 16px 12px !important; }
+          .plan-card { padding: 20px 16px !important; }
+          
+          /* Chip styling - adjust font */
+          .section-eyebrow { font-size: 10px !important; }
+
+          /* Demo section buttons - stack */
+          .demo-header {
+            flex-direction: column !important;
+          }
+
+          .demo-header button {
+            width: 100% !important;
+          }
+
+          /* Final CTA - stack buttons */
+          .final-cta-buttons {
+            flex-direction: column !important;
+          }
+
+          .final-cta-buttons button,
+          .final-cta-buttons a {
+            width: 100% !important;
+          }
+        }
       `
       document.head.appendChild(style)
     }
@@ -469,7 +660,7 @@ const Home = () => {
 
           {/* H1 */}
           <motion.h1 initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="serif"
+            className="serif hero-title"
             style={{ fontSize: 'clamp(48px,7.5vw,82px)', lineHeight: 1.05, letterSpacing: '-0.03em', color: 'var(--navy)', margin: 0 }}>
             Your LinkedIn presence,<br />
             <em style={{ color: 'var(--teal-deep)', fontStyle: 'italic' }}>on autopilot.</em>
@@ -480,7 +671,7 @@ const Home = () => {
             Generate professional LinkedIn posts with Claude AI in seconds — then watch them publish automatically to your profile.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.24 }}
+          <motion.div className="cta-buttons" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.24 }}
             style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
             <button onClick={() => navigate('/register')} className="btn-primary">
               <Sparkles size={15} /> Start for free
@@ -498,9 +689,10 @@ const Home = () => {
 
         {/* Floating pills */}
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="pills-container"
           style={{ position: 'relative', zIndex: 1, marginTop: 56, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, maxWidth: 560, margin: '56px auto 0' }}>
           {TOOL_PILLS.map((t, i) => (
-            <div key={t.label} className={`float-${i}`}
+            <div key={t.label} className={`float-${i} pill-item`}
               style={{ background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 2px 10px rgba(26,39,68,0.07)' }}>
               <div className={`tone-icon ${t.cls}`} style={{ width: 28, height: 28, borderRadius: 8 }}>{t.icon}</div>
               <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-secondary)' }}>{t.label}</span>
@@ -524,7 +716,7 @@ const Home = () => {
             </p>
           </Reveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, alignItems: 'start' }}>
+          <div className="demo-layout" style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, alignItems: 'start' }}>
             {/* Tone picker */}
             <Reveal>
               <div style={{ background: 'white', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22, boxShadow: '0 2px 12px rgba(26,39,68,0.06)' }}>
@@ -558,8 +750,8 @@ const Home = () => {
             {/* Preview */}
             <Reveal>
               <div style={{ background: 'white', border: '1.5px solid var(--border)', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(26,39,68,0.06)' }}>
-                <div style={{ padding: '16px 22px', borderBottom: '1px solid var(--blue-gray)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div className="demo-header" style={{ padding: '16px 22px', borderBottom: '1px solid var(--blue-gray)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div className="demo-header-left" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #2196b5, #1a7a9a)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Linkedin size={16} color="white" />
                     </div>
@@ -605,7 +797,7 @@ const Home = () => {
 
       {/* ─── STATS BAR ───────────────────────────────────────────────────────── */}
       <div className="stat-bar" style={{ padding: '24px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: 'rgba(255,255,255,0.08)', overflow: 'hidden', borderRadius: 4 }}>
+        <div className="stats-grid" style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: 'rgba(255,255,255,0.08)', overflow: 'hidden', borderRadius: 4 }}>
           {[
             { num: '10,000+', label: 'Posts generated' },
             { num: '5,000+', label: 'Active creators' },
@@ -635,7 +827,7 @@ const Home = () => {
             </p>
           </Reveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden' }}>
+          <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden' }}>
             {FEATURES.map((f, i) => (
               <Reveal key={f.name} delay={i * 0.05}>
                 <div className={`feature-card ${f.soon ? 'soon' : ''}`}>
@@ -659,12 +851,12 @@ const Home = () => {
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <Reveal>
             <div className="section-eyebrow" style={{ color: 'var(--teal-pale)' }}><span style={{ width: 16, height: 2, background: 'var(--teal)', borderRadius: 1, display: 'inline-block' }} /> How it works</div>
-            <h2 className="serif" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', margin: 0 }}>
+            <h2 className="serif section-title" style={{ fontSize: 'clamp(28px,4vw,48px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', margin: 0 }}>
               Up and running<br /><em style={{ color: 'var(--teal-pale)', fontStyle: 'italic' }}>in 60 seconds</em>
             </h2>
           </Reveal>
 
-          <div style={{ marginTop: 64, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
+          <div className="how-grid" style={{ marginTop: 64, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
             {STEPS.map((s, i) => (
               <Reveal key={s.num} delay={i * 0.1}>
                 <div>
@@ -691,7 +883,7 @@ const Home = () => {
             </h2>
           </Reveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {TESTIMONIALS.map((t, i) => (
               <Reveal key={t.name} delay={i * 0.08}>
                 <div className={t.featured ? 'testimonial-featured' : 'testimonial-normal'}
@@ -732,9 +924,9 @@ const Home = () => {
           </Reveal>
 
           <Reveal>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
               {PLANS.map(plan => (
-                <div key={plan.tier} className={`plan-${plan.variant}`}
+                <div key={plan.tier} className={`plan-${plan.variant} plan-card`}
                   style={{ borderRadius: 18, padding: '32px 28px', position: 'relative', overflow: 'hidden' }}>
                   {plan.badge && (
                     <div style={{ position: 'absolute', top: 18, right: 18 }}>
@@ -803,7 +995,7 @@ const Home = () => {
           <p style={{ fontSize: 15, color: 'var(--text-secondary)', marginBottom: 40, lineHeight: 1.7 }}>
             Join thousands of professionals who grow their LinkedIn presence with DevPost AI. Free to start — no credit card needed.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className="final-cta-buttons" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button onClick={() => navigate('/register')} className="btn-primary">
               <Sparkles size={15} /> Create free account
             </button>
@@ -816,7 +1008,7 @@ const Home = () => {
 
       {/* ─── FOOTER ──────────────────────────────────────────────────────────── */}
       <footer style={{ borderTop: '1px solid var(--border)', padding: '28px 24px', background: 'white' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+        <div className="footer-container" style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: 'linear-gradient(135deg, #2196b5, #1a7a9a)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Linkedin size={13} color="white" />
@@ -825,7 +1017,7 @@ const Home = () => {
               DevPost<span style={{ color: 'var(--teal)' }}>AI</span>
             </span>
           </div>
-          <div style={{ display: 'flex', gap: 24 }}>
+          <div className="footer-links" style={{ display: 'flex', gap: 24 }}>
             {[['Privacy', '/privacy'], ['Terms', '/terms'], ['About', '/about'], ['Refund Policy', '/refund-policy']].map(([l, href]) => (
               <a key={l} href={href} className="footer-link">{l}</a>
             ))}

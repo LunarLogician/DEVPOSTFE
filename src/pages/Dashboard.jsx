@@ -11,7 +11,7 @@ import {
   Linkedin, ExternalLink, Edit, X, RefreshCw, Heart,
   MessageCircle, Share2, CheckCircle, FileText, Zap,
   LayoutDashboard, Settings, HelpCircle, BarChart2,
-  Bell, Moon, Search, Plus, Image, Lightbulb, BookOpen,
+  Bell, Moon, Search, Plus, Image, Lightbulb, BookOpen, Menu,
 } from 'lucide-react';
 
 /* ─── Font injection ─── */
@@ -61,6 +61,11 @@ if (typeof document !== 'undefined' && !document.getElementById('stitch-fonts'))
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--blue-gray-mid); border-radius: 99px; }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .nav-item {
       display: flex; align-items: center; gap: 10px;
       padding: 9px 13px; border-radius: 9px;
@@ -87,12 +92,25 @@ if (typeof document !== 'undefined' && !document.getElementById('stitch-fonts'))
       box-shadow: var(--shadow-sm);
       display: flex; align-items: center; justify-content: space-between;
       transition: box-shadow 0.2s, transform 0.2s;
+      flex-wrap: wrap;
     }
     .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 
     .stat-icon {
       width: 46px; height: 46px; border-radius: 13px;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    .stat-value {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .stat-value-small {
+      font-size: 22px;
     }
 
     .tone-pill {
@@ -199,6 +217,196 @@ if (typeof document !== 'undefined' && !document.getElementById('stitch-fonts'))
       transition: all 0.18s;
     }
     .new-post-btn:hover { transform: translateY(-1px); box-shadow: 0 7px 20px rgba(33,150,181,0.45); }
+
+    /* ──── MOBILE MENU ──── */
+    .hamburger-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 6px;
+      width: 36px;
+      height: 36px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      transition: color 0.15s;
+    }
+    .hamburger-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .mobile-sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      background: linear-gradient(170deg, #1e2f52 0%, #1a2744 55%, #141e36 100%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.04);
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .mobile-sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .mobile-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.7);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ──── RESPONSIVE - MOBILE FIRST ──── */
+    @media (max-width: 1024px) {
+      .sidebar { display: none !important; width: 0 !important; }
+      .hamburger-btn { display: flex !important; }
+      .mobile-sidebar-overlay.open { display: block !important; }
+      .main-container { width: 100% !important; }
+      .main-content { padding: 16px 14px 24px !important; }
+      .topbar { padding: 0 8px 0 8px !important; height: 50px !important; }
+      .search-box { display: none !important; }
+      .topbar-right { gap: 10px !important; }
+      .topbar-btn { padding: 6px !important; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+      .stat-card { padding: 16px !important; }
+      .stat-value { font-size: 28px !important; }
+      .section-label { font-size: 10px !important; }
+      .two-col-layout { grid-template-columns: 1fr !important; gap: 16px !important; }
+      .form-card { padding: 20px !important; }
+      .post-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; gap: 12px !important; }
+      .post-card { padding: 14px !important; }
+      .gen-btn { padding: 12px 14px !important; font-size: 13px !important; }
+      h2 { font-size: 20px !important; }
+      h1 { font-size: 22px !important; }
+    }
+
+    @media (max-width: 768px) {
+      .main-content { padding: 12px 10px 20px !important; }
+      .topbar { padding: 0 8px !important; height: 48px !important; display: flex !important; align-items: center !important; }
+      .hamburger-btn { display: flex !important; margin-right: 6px !important; }
+      .topbar-right { gap: 8px !important; justify-content: center !important; }
+      .stat-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+      .stat-card { padding: 12px 14px !important; }
+      .stat-icon { width: 36px !important; height: 36px !important; }
+      .stat-value { font-size: 24px !important; }
+      .section-label { font-size: 9px !important; margin-bottom: 6px !important; }
+      .tone-pills { gap: 6px !important; }
+      .tone-pill { padding: 6px 11px !important; font-size: 12px !important; }
+      .length-pill { padding: 6px 14px !important; font-size: 12px !important; }
+      .form-card { padding: 16px !important; border-radius: 12px !important; }
+      .post-input { padding: 11px 13px !important; font-size: 14px !important; }
+      .post-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; gap: 8px !important; }
+      .post-card { padding: 11px !important; }
+      .action-btn { padding: 6px 10px !important; font-size: 11px !important; }
+      .gen-btn { padding: 11px !important; font-size: 12.5px !important; }
+      .live-preview { margin-top: 12px !important; }
+      .tip-box { padding: 12px !important; gap: 10px !important; }
+      .upgrade-box { padding: 14px !important; }
+      h2 { font-size: 18px !important; }
+      h1 { font-size: 20px !important; }
+      .refine-post { margin-top: 14px !important; }
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 14px !important; }
+      .main-content { padding: 10px 8px 16px !important; }
+      .topbar { 
+        height: 46px !important; 
+        padding: 0 6px 0 6px !important; 
+        flex-wrap: nowrap !important;
+        gap: 6px !important;
+      }
+      .hamburger-btn { display: flex !important; margin-right: 4px !important; padding: 4px !important; }
+      .topbar-right { 
+        gap: 6px !important; 
+        width: auto !important;
+        justify-content: flex-end !important;
+      }
+      .stat-grid { grid-template-columns: 1fr !important; gap: 8px !important; }
+      .stat-card { 
+        padding: 10px 12px !important;
+        gap: 10px !important;
+      }
+      .stat-icon { width: 32px !important; height: 32px !important; }
+      .stat-value { font-size: 20px !important; }
+      .section-label { font-size: 8px !important; margin-bottom: 5px !important; }
+      .tone-pills { gap: 5px !important; flex-wrap: wrap !important; }
+      .tone-pill { padding: 5px 10px !important; font-size: 11px !important; }
+      .length-pill { padding: 5px 12px !important; font-size: 11px !important; }
+      .form-card { padding: 14px !important; border-radius: 10px !important; }
+      .post-input { padding: 10px 12px !important; font-size: 13px !important; }
+      .post-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+      .post-card { padding: 10px !important; }
+      .post-card p { font-size: 12px !important; }
+      .action-btn { padding: 5px 9px !important; font-size: 10px !important; }
+      .gen-btn { padding: 10px 12px !important; font-size: 12px !important; }
+      textarea { font-size: 13px !important; }
+      h2 { font-size: 16px !important; }
+      h1 { font-size: 18px !important; }
+      .upgrade-box { padding: 12px !important; }
+      .tip-box { padding: 10px !important; gap: 8px !important; }
+    }
+
+    @media (max-width: 480px) {
+      .main-content { padding: 8px 6px 12px !important; }
+      .topbar { height: 44px !important; padding: 0 4px !important; }
+      .hamburger-btn { display: flex !important; margin-right: 4px !important; padding: 3px !important; width: 32px !important; height: 32px !important; }
+      .topbar-right { gap: 4px !important; }
+      .topbar-btn { 
+        padding: 4px !important; 
+        width: 28px !important; 
+        height: 28px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .stat-grid { grid-template-columns: 1fr !important; gap: 8px !important; }
+      .stat-card { 
+        padding: 8px 10px !important; 
+        gap: 8px !important;
+      }
+      .stat-icon { width: 28px !important; height: 28px !important; }
+      .stat-value { font-size: 16px !important; }
+      .section-label { font-size: 7px !important; margin-bottom: 3px !important; }
+      .form-card { padding: 12px !important; }
+      .post-input { 
+        padding: 9px 11px !important; 
+        font-size: 13px !important;
+        border-radius: 8px !important;
+      }
+      .tone-pills { gap: 4px !important; }
+      .tone-pill { padding: 4px 9px !important; font-size: 10px !important; }
+      .length-pill { padding: 4px 10px !important; font-size: 10px !important; }
+      .post-grid { grid-template-columns: 1fr !important; gap: 6px !important; }
+      .post-card { padding: 8px !important; }
+      .post-card p { font-size: 11px !important; }
+      .action-btn { padding: 4px 8px !important; font-size: 9px !important; }
+      .gen-btn { padding: 10px !important; font-size: 11px !important; }
+      textarea { font-size: 12px !important; }
+      h2 { font-size: 15px !important; }
+      h1 { font-size: 16px !important; }
+      .upgrade-box { padding: 10px 12px !important; }
+      .tip-box { padding: 8px 10px !important; gap: 6px !important; }
+      .live-preview { display: none !important; }
+    }
   `;
   document.head.appendChild(style);
 }
@@ -217,9 +425,9 @@ const NAV = [
 const LivePreview = ({ content, imagePreview, userName }) => {
   const initials = userName ? userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'ME';
   return (
-    <div style={{ background: 'var(--white)', borderRadius: 'var(--r)', border: '1.5px solid var(--border)', overflow: 'hidden' }}>
+    <div style={{ background: 'var(--white)', borderRadius: 'var(--r)', border: '1.5px solid var(--border)', overflow: 'hidden', maxWidth: '100%' }}>
       <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--blue-gray)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+        <span className="live-preview-title" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
           Live Preview
         </span>
         {content && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#4caf7d', display: 'block', boxShadow: '0 0 0 2.5px rgba(76,175,125,0.2)' }} />}
@@ -307,6 +515,7 @@ const Dashboard = () => {
   const [modal, setModal] = useState(null);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalTxt, setModalTxt] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchStats(); fetchSaved();
@@ -377,10 +586,10 @@ const Dashboard = () => {
   const planLabel = stats?.plan ? stats.plan.charAt(0).toUpperCase() + stats.plan.slice(1) : 'Free';
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--blue-gray)', fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--blue-gray)', fontFamily: "'DM Sans', sans-serif", width: '100%' }}>
 
       {/* ── Sidebar ── */}
-      <aside style={{
+      <aside className="sidebar" style={{
         width: 215, flexShrink: 0,
         background: 'linear-gradient(170deg, #1e2f52 0%, #1a2744 55%, #141e36 100%)',
         display: 'flex', flexDirection: 'column',
@@ -442,17 +651,20 @@ const Dashboard = () => {
       </aside>
 
       {/* ── Right panel ── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="main-container" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%' }}>
 
         {/* Topbar */}
-        <div style={{ height: 56, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px', background: 'var(--white)', borderBottom: '1px solid var(--border)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'var(--blue-gray)', border: '1.5px solid var(--border)', borderRadius: 'var(--r-pill)', color: 'var(--text-muted)', fontSize: 13, width: 260, cursor: 'text' }}>
+        <div className="topbar" style={{ height: 56, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px', background: 'var(--white)', borderBottom: '1px solid var(--border)' }}>
+          <button className="hamburger-btn" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none', '@media (max-width: 1024px)': { display: 'flex' } }}>
+            <Menu size={18} />
+          </button>
+          <div className="search-box" style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'var(--blue-gray)', border: '1.5px solid var(--border)', borderRadius: 'var(--r-pill)', color: 'var(--text-muted)', fontSize: 13, width: 260, cursor: 'text' }}>
             <Search size={14} />
             <span>Search insights...</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 4 }}><Bell size={17} /></button>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 4 }}><Moon size={16} /></button>
+          <div className="topbar-right" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <button className="topbar-btn" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 4 }}><Bell size={17} /></button>
+            <button className="topbar-btn" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 4 }}><Moon size={16} /></button>
             <button style={{ padding: '7px 18px', borderRadius: 'var(--r-pill)', background: 'var(--teal)', color: 'white', border: 'none', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', boxShadow: '0 2px 8px rgba(33,150,181,0.3)', transition: 'all 0.15s' }}
               onMouseEnter={e => e.currentTarget.style.background = 'var(--teal-deep)'}
               onMouseLeave={e => e.currentTarget.style.background = 'var(--teal)'}
@@ -466,14 +678,14 @@ const Dashboard = () => {
         </div>
 
         {/* Main */}
-        <main style={{ flex: 1, overflowY: 'auto', padding: '28px 28px 40px' }}>
+        <main className="main-content" style={{ flex: 1, overflowY: 'auto', padding: '28px 28px 40px' }}>
 
           {/* ── GENERATE ── */}
           {tab === 'generate' && (
             <div>
               {/* Stats row */}
               {stats && (
-                <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+                <motion.div className="stat-grid" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
                   style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 24 }}>
 
                   <div className="stat-card">
@@ -512,10 +724,10 @@ const Dashboard = () => {
               )}
 
               {/* Two-col */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, alignItems: 'start' }}>
+              <div className="two-col-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, alignItems: 'start' }}>
 
                 {/* Form */}
-                <motion.div initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }}
+                <motion.div className="form-card" initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }}
                   style={{ background: 'var(--white)', borderRadius: 'var(--r)', border: '1.5px solid var(--border)', padding: 28, boxShadow: 'var(--shadow-sm)' }}>
 
                   <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: 'var(--text-primary)', marginBottom: 26, letterSpacing: '-0.01em' }}>
@@ -531,7 +743,7 @@ const Dashboard = () => {
 
                     <div>
                       <p className="section-label">Post Tone</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      <div className="tone-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                         {TONES.map(t => (
                           <button key={t} type="button" onClick={() => setForm(f => ({ ...f, tone: t }))}
                             className={`tone-pill ${form.tone === t ? 'active' : ''}`}>{t}</button>
@@ -541,7 +753,7 @@ const Dashboard = () => {
 
                     <div>
                       <p className="section-label">Length</p>
-                      <div style={{ display: 'flex', gap: 8 }}>
+                      <div className="length-pills" style={{ display: 'flex', gap: 8 }}>
                         {LENGTHS.map(l => (
                           <button key={l} type="button" onClick={() => setForm(f => ({ ...f, length: l }))}
                             className={`length-pill ${form.length === l ? 'active' : ''}`}>{l}</button>
@@ -575,7 +787,7 @@ const Dashboard = () => {
 
                   {/* Post edit area */}
                   {post && (
-                    <div style={{ marginTop: 22, paddingTop: 22, borderTop: '1px solid var(--blue-gray)' }}>
+                    <div className="refine-post" style={{ marginTop: 22, paddingTop: 22, borderTop: '1px solid var(--blue-gray)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                         <p className="section-label" style={{ marginBottom: 0 }}>Refine Post</p>
                         <div style={{ display: 'flex', gap: 6 }}>
@@ -598,10 +810,12 @@ const Dashboard = () => {
                 <motion.div initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }}
                   style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-                  <LivePreview content={editing} imagePreview={imgPrev} userName={user?.name} />
+                  <div className="live-preview">
+                    <LivePreview content={editing} imagePreview={imgPrev} userName={user?.name} />
+                  </div>
 
                   {/* Tip */}
-                  <div style={{ background: 'var(--teal-light)', borderRadius: 'var(--r)', border: '1.5px solid var(--teal-pale)', padding: 16, display: 'flex', gap: 10 }}>
+                  <div className="tip-box" style={{ background: 'var(--teal-light)', borderRadius: 'var(--r)', border: '1.5px solid var(--teal-pale)', padding: 16, display: 'flex', gap: 10 }}>
                     <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(33,150,181,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Lightbulb size={15} color="var(--teal-deep)" />
                     </div>
@@ -613,7 +827,7 @@ const Dashboard = () => {
 
                   {/* Upgrade / Manage */}
                   {stats?.plan === 'free' && (
-                    <div style={{ borderRadius: 'var(--r)', padding: '18px 20px', background: 'linear-gradient(135deg, #1e2f52, #141e36)', boxShadow: '0 8px 24px rgba(26,39,68,0.28)' }}>
+                    <div className="upgrade-box" style={{ borderRadius: 'var(--r)', padding: '18px 20px', background: 'linear-gradient(135deg, #1e2f52, #141e36)', boxShadow: '0 8px 24px rgba(26,39,68,0.28)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
                         <Crown size={14} color="#f5d08a" />
                         <span style={{ fontWeight: 700, color: 'white', fontSize: 13.5 }}>Go Pro</span>
@@ -625,7 +839,7 @@ const Dashboard = () => {
                     </div>
                   )}
                   {stats?.plan && stats.plan !== 'free' && (
-                    <div style={{ background: 'var(--white)', borderRadius: 'var(--r)', border: '1.5px solid var(--border)', padding: 16 }}>
+                    <div className="upgrade-box" style={{ background: 'var(--white)', borderRadius: 'var(--r)', border: '1.5px solid var(--border)', padding: 16 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                         <Crown size={13} color="#c8870a" />
                         <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>{planLabel} Plan — Active</span>
@@ -661,7 +875,7 @@ const Dashboard = () => {
                   </button>
                 </div>
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(272px, 1fr))', gap: 14 }}>
+                <div className="post-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(272px, 1fr))', gap: 14 }}>
                   {saved.map((p, i) => (
                     <motion.div key={p._id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
                       className="post-card" onClick={() => { setModal(p); setModalTxt(p.content); setModalEdit(false); }}>
@@ -743,6 +957,83 @@ const Dashboard = () => {
           )}
         </main>
       </div>
+
+      {/* ── Mobile Sidebar Overlay ── */}
+      {sidebarOpen && (
+        <div className="mobile-sidebar-overlay open" onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 999, animation: 'fadeIn 0.2s ease' }} />
+      )}
+
+      {/* ── Mobile Sidebar ── */}
+      {sidebarOpen && (
+        <motion.aside initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="mobile-sidebar" style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 280,
+          background: 'linear-gradient(170deg, #1e2f52 0%, #1a2744 55%, #141e36 100%)',
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
+          borderRight: '1px solid rgba(255,255,255,0.04)',
+          overflowY: 'auto',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
+        }}>
+          {/* Mobile Brand */}
+          <div style={{ padding: '24px 18px 18px' }}>
+            <Link to="/" onClick={() => setSidebarOpen(false)} style={{ textDecoration: 'none' }}>
+              <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 16.5, color: 'white', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+                Editorial Intelligence
+              </p>
+              <p style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginTop: 4 }}>
+                THE DIGITAL CURATOR
+              </p>
+            </Link>
+          </div>
+
+          <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 16px 10px' }} />
+
+          {/* Mobile Nav */}
+          <nav style={{ flex: 1, padding: '6px 10px', display: 'flex', flexDirection: 'column', gap: 1 }}>
+            {NAV.map(({ id, label, Icon }) => (
+              <button key={id} onClick={() => { setTab(id); setSidebarOpen(false); }} className={`nav-item ${tab === id ? 'active' : ''}`}>
+                <Icon size={14} style={{ flexShrink: 0, opacity: tab === id ? 1 : 0.65 }} />
+                {label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Mobile New Post */}
+          <div style={{ padding: '6px 12px 10px' }}>
+            <button className="new-post-btn" onClick={() => { setTab('generate'); setSidebarOpen(false); }}>
+              <Plus size={14} /> New Post
+            </button>
+          </div>
+
+          <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 16px' }} />
+
+          {/* Mobile Bottom */}
+          <div style={{ padding: '8px 10px 6px', display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <button className="nav-item"><HelpCircle size={14} style={{ opacity: 0.65 }} /> Help Center</button>
+            <button onClick={() => { logout(); navigate('/login'); }} className="nav-item">
+              <LogOut size={14} style={{ opacity: 0.65 }} /> Log Out
+            </button>
+          </div>
+
+          {/* Mobile User */}
+          <div style={{ padding: '10px 14px 18px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '8px 6px' }}>
+              <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #4a90c4, #2d6088)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ color: 'white', fontSize: 11, fontWeight: 700 }}>{user?.name?.charAt(0)?.toUpperCase() || 'U'}</span>
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 11.5, fontWeight: 600, color: 'rgba(255,255,255,0.75)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name}</p>
+                <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.28)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.email}</p>
+              </div>
+            </div>
+          </div>
+        </motion.aside>
+      )}
 
       {/* ── Modal ── */}
       <AnimatePresence>
