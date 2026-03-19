@@ -36,18 +36,33 @@ const Login = () => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [showOTPVerification, setShowOTPVerification] = useState(false);
   const [unverifiedEmail, setUnverifiedEmail] = useState('');
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!formData.password) {
+      newErrors.password = 'Password is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     setLoading(true);
     
     const result = await login(formData.email, formData.password);
@@ -120,7 +135,7 @@ const Login = () => {
                 Email Address
               </label>
               <div style={{ position: 'relative' }}>
-                <Mail style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: 'var(--text-soft)' }} />
+                <Mail style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: errors.email ? '#e05252' : 'var(--text-soft)' }} />
                 <input
                   type="email"
                   name="email"
@@ -133,8 +148,8 @@ const Login = () => {
                     paddingTop: '12px',
                     paddingBottom: '12px',
                     borderRadius: '10px',
-                    border: '1.5px solid var(--sand)',
-                    background: 'var(--cream)',
+                    border: errors.email ? '1.5px solid #e05252' : '1.5px solid var(--sand)',
+                    background: errors.email ? '#fff5f5' : 'var(--cream)',
                     color: 'var(--text-dark)',
                     fontSize: '14px',
                     outline: 'none',
@@ -143,17 +158,20 @@ const Login = () => {
                   placeholder="you@example.com"
                   required
                   onFocus={(e) => {
-                    e.target.style.borderColor = 'var(--sky-deep)';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(61,127,163,0.15)';
+                    e.target.style.borderColor = errors.email ? '#e05252' : 'var(--sky-deep)';
+                    e.target.style.boxShadow = errors.email ? '0 0 0 3px rgba(224,82,82,0.15)' : '0 0 0 3px rgba(61,127,163,0.15)';
                     e.target.style.background = 'white';
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = 'var(--sand)';
+                    e.target.style.borderColor = errors.email ? '#e05252' : 'var(--sand)';
                     e.target.style.boxShadow = 'none';
-                    e.target.style.background = 'var(--cream)';
+                    e.target.style.background = errors.email ? '#fff5f5' : 'var(--cream)';
                   }}
                 />
               </div>
+              {errors.email && (
+                <p style={{ fontSize: '12px', color: '#e05252', marginTop: '6px' }}>{errors.email}</p>
+              )}
             </div>
 
             {/* Password Input */}
@@ -170,7 +188,7 @@ const Login = () => {
                 </Link>
               </div>
               <div style={{ position: 'relative' }}>
-                <Lock style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: 'var(--text-soft)' }} />
+                <Lock style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: errors.password ? '#e05252' : 'var(--text-soft)' }} />
                 <input
                   type="password"
                   name="password"
@@ -183,8 +201,8 @@ const Login = () => {
                     paddingTop: '12px',
                     paddingBottom: '12px',
                     borderRadius: '10px',
-                    border: '1.5px solid var(--sand)',
-                    background: 'var(--cream)',
+                    border: errors.password ? '1.5px solid #e05252' : '1.5px solid var(--sand)',
+                    background: errors.password ? '#fff5f5' : 'var(--cream)',
                     color: 'var(--text-dark)',
                     fontSize: '14px',
                     outline: 'none',
@@ -193,17 +211,20 @@ const Login = () => {
                   placeholder="••••••••"
                   required
                   onFocus={(e) => {
-                    e.target.style.borderColor = 'var(--sky-deep)';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(61,127,163,0.15)';
+                    e.target.style.borderColor = errors.password ? '#e05252' : 'var(--sky-deep)';
+                    e.target.style.boxShadow = errors.password ? '0 0 0 3px rgba(224,82,82,0.15)' : '0 0 0 3px rgba(61,127,163,0.15)';
                     e.target.style.background = 'white';
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = 'var(--sand)';
+                    e.target.style.borderColor = errors.password ? '#e05252' : 'var(--sand)';
                     e.target.style.boxShadow = 'none';
-                    e.target.style.background = 'var(--cream)';
+                    e.target.style.background = errors.password ? '#fff5f5' : 'var(--cream)';
                   }}
                 />
               </div>
+              {errors.password && (
+                <p style={{ fontSize: '12px', color: '#e05252', marginTop: '6px' }}>{errors.password}</p>
+              )}
             </div>
 
             {/* Submit Button */}
