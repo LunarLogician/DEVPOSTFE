@@ -16,7 +16,7 @@ const plans = [
     color: 'border-gray-200',
     badge: null,
     features: [
-      '3 AI-generated posts/month',
+      '7 AI-generated posts/month',
       'Basic tones & styles',
       'Copy & save posts',
       'Manual LinkedIn posting',
@@ -27,14 +27,14 @@ const plans = [
   {
     id: 'starter',
     name: 'Starter',
-    price: 'Rs 1,000',
+    price: 'Rs 299',
     period: '/month',
     description: 'For professionals growing their presence',
     icon: <Zap className="w-6 h-6 text-blue-500" />,
     color: 'border-blue-500',
     badge: 'Popular',
     features: [
-      '20 AI-generated posts/month',
+      '30 AI-generated posts/month',
       'All tones & styles',
       'LinkedIn auto-post',
       'Post history & analytics',
@@ -46,14 +46,14 @@ const plans = [
   {
     id: 'pro',
     name: 'Pro',
-    price: 'Rs 2,000',
+    price: 'Rs 599',
     period: '/month',
     description: 'For power users and teams',
     icon: <Crown className="w-6 h-6 text-yellow-500" />,
     color: 'border-yellow-500',
     badge: 'Best Value',
     features: [
-      '50 AI-generated posts/month',
+      '100 AI-generated posts/month',
       'All tones & styles',
       'LinkedIn auto-post',
       'Advanced analytics',
