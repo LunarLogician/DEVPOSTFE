@@ -133,7 +133,7 @@ const PLANS = [
     period: 'per month',
     desc: 'Get started with AI-powered LinkedIn posts',
     features: [
-      { text: '3 AI-generated posts/month' },
+      { text: '7 AI-generated posts/month' },
       { text: 'Basic tones & styles' },
       { text: 'Copy & save posts' },
       { text: 'Manual LinkedIn posting' },
@@ -143,11 +143,11 @@ const PLANS = [
   },
   {
     tier: 'Starter',
-    price: 'Rs 1,000',
+    price: 'Rs 299',
     period: 'per month',
     desc: 'For professionals growing their presence',
     features: [
-      { text: '20 AI-generated posts/month' },
+      { text: '30 AI-generated posts/month' },
       { text: 'All tones & styles' },
       { text: 'LinkedIn auto-post' },
       { text: 'Post history & analytics' },
@@ -159,11 +159,11 @@ const PLANS = [
   },
   {
     tier: 'Pro',
-    price: 'Rs 2,000',
+    price: 'Rs 599',
     period: 'per month',
     desc: 'For power users and teams',
     features: [
-      { text: '50 AI-generated posts/month' },
+      { text: '100 AI-generated posts/month' },
       { text: 'All tones & styles' },
       { text: 'LinkedIn auto-post' },
       { text: 'Advanced analytics' },
